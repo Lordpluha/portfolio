@@ -1,0 +1,290 @@
+.work {
+  padding-top: var(--space-6);
+}
+
+.work__back a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.work__back a:hover {
+  color: var(--accent);
+}
+
+.work__head {
+  display: grid;
+  gap: var(--space-6);
+  margin-top: var(--space-4);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .work__head {
+    grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.85fr);
+    gap: var(--space-8);
+  }
+}
+
+.work__eyebrow {
+  margin-top: 0;
+}
+
+.work__title {
+  margin-top: var(--space-3);
+  font-size: var(--text-3xl);
+  text-wrap: balance;
+}
+
+.work__tagline {
+  margin-top: var(--space-4);
+  max-width: 30ch;
+  font-size: var(--text-lg);
+  line-height: 1.35;
+  color: var(--ink-muted);
+  text-wrap: pretty;
+}
+
+.work__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+// --------------------------------------------------------- honest demo note
+
+.note {
+  max-width: 62ch;
+  margin-top: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  background: var(--paper-raised);
+}
+
+.note__title {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.note__body {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+// ------------------------------------------------------------------- hero
+
+.work__hero {
+  margin-top: var(--space-8);
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  background: var(--paper-sunk);
+  aspect-ratio: 16 / 10;
+}
+
+.work__hero app-image {
+  height: 100%;
+}
+
+// -------------------------------------------------------------------- body
+
+.work__body {
+  display: grid;
+  gap: var(--space-7);
+  margin-top: var(--space-9);
+}
+
+@media (min-width: 880px) {
+  .work__body {
+    grid-template-columns: minmax(0, 1fr) minmax(200px, 260px);
+    gap: var(--space-9);
+  }
+}
+
+.work__main > section + section {
+  margin-top: var(--space-7);
+}
+
+.work__heading {
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.work__summary {
+  margin-top: var(--space-4);
+  max-width: var(--measure);
+  font-size: var(--text-md);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.work__highlights {
+  margin-top: var(--space-4);
+  max-width: var(--measure);
+}
+
+.work__highlights li {
+  position: relative;
+  padding-left: var(--space-5);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--ink-muted);
+}
+
+.work__highlights li + li {
+  margin-top: var(--space-4);
+}
+
+.work__highlights li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 10px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.work__aside h2 {
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--rule);
+}
+
+.work__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.work__stack li {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--ink-muted);
+}
+
+// ----------------------------------------------------------------- gallery
+
+.gallery {
+  margin-top: var(--space-9);
+}
+
+.gallery__heading {
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.gallery__subheading {
+  margin-top: var(--space-8);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.gallery__grid {
+  display: grid;
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+}
+
+// A project with a single extra screen should not get a second hero-sized
+// image; the cap keeps every gallery entry reading as a thumbnail.
+.gallery__grid > li {
+  max-width: 620px;
+}
+
+.gallery__grid--mobile {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 220px));
+  gap: var(--space-5);
+}
+
+.gallery__frame {
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper-sunk);
+}
+
+.gallery__frame app-image {
+  height: 100%;
+}
+
+.gallery__figure figcaption {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--ink-muted);
+}
+
+// ------------------------------------------------------------------- pager
+
+.pager {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-9);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--rule);
+}
+
+@media (min-width: 640px) {
+  .pager {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pager__link--next {
+    grid-column: 2;
+    text-align: right;
+  }
+}
+
+.pager__link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-block: var(--space-2);
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.pager__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  line-height: 1.1;
+}
+
+.pager__link:hover .pager__title {
+  color: var(--accent);
+}

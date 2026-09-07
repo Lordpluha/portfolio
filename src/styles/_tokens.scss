@@ -1,0 +1,90 @@
+// Design tokens. Two fully-authored themes: warm paper and near-black ink.
+// One accent hue (rust), tuned per theme so both stay above WCAG AA.
+
+:root {
+  color-scheme: light;
+
+  // Palette — paper
+  --paper: #f7f4ee;
+  --paper-raised: #fffdf9;
+  --paper-sunk: #efebe1;
+  --ink: #17150f;
+  --ink-muted: #57534a;
+  --rule: #ddd7c9;
+  --rule-strong: #c8c0ad;
+  --accent: #a93b12;
+  --accent-contrast: #fffdf9;
+  --accent-wash: rgba(169, 59, 18, 0.09);
+  --shadow: 0 1px 2px rgba(23, 21, 15, 0.05), 0 12px 32px -18px rgba(23, 21, 15, 0.35);
+
+  // Type
+  --font-display: 'Instrument Serif', 'Iowan Old Style', 'Times New Roman', serif;
+  --font-text: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', 'Menlo', monospace;
+
+  // Modular scale, 1.25 ratio, fluid where it matters
+  --text-2xs: 0.75rem;
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1.0625rem;
+  --text-md: clamp(1.125rem, 0.35vw + 1.05rem, 1.25rem);
+  --text-lg: clamp(1.3rem, 0.6vw + 1.15rem, 1.5rem);
+  --text-xl: clamp(1.55rem, 1.1vw + 1.3rem, 2rem);
+  --text-2xl: clamp(1.9rem, 1.9vw + 1.4rem, 2.9rem);
+  --text-3xl: clamp(2.4rem, 3.4vw + 1.5rem, 4rem);
+  --text-display: clamp(2.9rem, 8vw + 0.4rem, 8rem);
+
+  // Space — 4px base, geometric above 1rem
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: clamp(4rem, 7vw, 7rem);
+  --space-10: clamp(5.5rem, 10vw, 10rem);
+
+  // Layout
+  --measure: 68ch;
+  --shell: 1240px;
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --radius: 3px;
+  --radius-lg: 6px;
+}
+
+// The system preference decides unless the visitor has picked a theme.
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+
+    --paper: #100f0d;
+    --paper-raised: #191814;
+    --paper-sunk: #0a0908;
+    --ink: #ece7dc;
+    --ink-muted: #9e9789;
+    --rule: #2c2a25;
+    --rule-strong: #423f38;
+    --accent: #ff8355;
+    --accent-contrast: #100f0d;
+    --accent-wash: rgba(255, 131, 85, 0.13);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 14px 34px -18px rgba(0, 0, 0, 0.8);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --paper: #100f0d;
+  --paper-raised: #191814;
+  --paper-sunk: #0a0908;
+  --ink: #ece7dc;
+  --ink-muted: #9e9789;
+  --rule: #2c2a25;
+  --rule-strong: #423f38;
+  --accent: #ff8355;
+  --accent-contrast: #100f0d;
+  --accent-wash: rgba(255, 131, 85, 0.13);
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 14px 34px -18px rgba(0, 0, 0, 0.8);
+}

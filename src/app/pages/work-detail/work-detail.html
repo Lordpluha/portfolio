@@ -1,0 +1,145 @@
+@if (project(); as project) {
+  <article class="work">
+    <div class="shell">
+      <p class="work__back">
+        <a routerLink="/" fragment="work">
+          <app-icon name="arrow-left" />
+          <span>All work</span>
+        </a>
+      </p>
+
+      <div class="work__head">
+        <div>
+          <p class="eyebrow work__eyebrow">{{ project.categoryLabel }} · {{ project.year }}</p>
+          <h1 class="work__title display">{{ project.title }}</h1>
+          <p class="work__tagline">{{ project.tagline }}</p>
+
+          <div class="work__actions">
+            @if (project.demoHref; as demo) {
+              <a class="button button--primary" [href]="demo" rel="noopener">
+                <span>Open live demo</span>
+                <app-icon name="arrow-up-right" />
+              </a>
+            }
+            <a class="button" [href]="project.repoHref" rel="noopener">
+              <app-icon name="github" />
+              <span>Source{{ project.repoBranch ? ' (' + project.repoBranch + ')' : '' }}</span>
+            </a>
+          </div>
+        </div>
+
+        @if (project.demoNote) {
+          <aside class="note" aria-labelledby="demo-note-heading">
+            <h2 class="note__title" id="demo-note-heading">
+              {{ project.demo ? 'About this demo' : 'Why there is no demo' }}
+            </h2>
+            <p class="note__body">{{ project.demoNote }}</p>
+          </aside>
+        }
+      </div>
+    </div>
+
+    @if (project.media.card; as hero) {
+      <div class="shell">
+        <figure class="work__hero">
+          <app-image
+            [sources]="hero.sources"
+            [alt]="hero.alt"
+            [priority]="true"
+            sizes="(min-width: 1240px) 1120px, 92vw"
+          />
+        </figure>
+      </div>
+    }
+
+    <div class="shell work__body">
+      <div class="work__main">
+        <section aria-labelledby="summary-heading">
+          <h2 class="work__heading" id="summary-heading">Overview</h2>
+          <p class="work__summary">{{ project.summary }}</p>
+        </section>
+
+        <section aria-labelledby="highlights-heading">
+          <h2 class="work__heading" id="highlights-heading">Highlights</h2>
+          <ul class="work__highlights">
+            @for (highlight of project.highlights; track highlight) {
+              <li>{{ highlight }}</li>
+            }
+          </ul>
+        </section>
+      </div>
+
+      <aside class="work__aside" aria-labelledby="stack-heading">
+        <h2 class="eyebrow" id="stack-heading">Stack</h2>
+        <ul class="work__stack">
+          @for (item of project.stack; track item) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      </aside>
+    </div>
+
+    @if (project.media.desktop.length || project.media.mobile.length) {
+      <section class="shell gallery" aria-labelledby="gallery-heading">
+        <h2 class="gallery__heading" id="gallery-heading">Screens</h2>
+
+        @if (project.media.desktop.length) {
+          <ul class="gallery__grid">
+            @for (shot of project.media.desktop; track shot.sources[0].src) {
+              <li appReveal>
+                <figure class="gallery__figure">
+                  <div class="gallery__frame" [style.aspect-ratio]="frameRatio(shot.ratio, 0.8)">
+                    <app-image
+                      [sources]="shot.sources"
+                      [alt]="shot.alt"
+                      sizes="(min-width: 900px) 540px, 92vw"
+                    />
+                  </div>
+                  <figcaption>{{ shot.label }}</figcaption>
+                </figure>
+              </li>
+            }
+          </ul>
+        }
+
+        @if (project.media.mobile.length) {
+          <h3 class="gallery__subheading">At 390px</h3>
+          <ul class="gallery__grid gallery__grid--mobile">
+            @for (shot of project.media.mobile; track shot.sources[0].src) {
+              <li appReveal>
+                <figure class="gallery__figure">
+                  <div
+                    class="gallery__frame gallery__frame--phone"
+                    [style.aspect-ratio]="frameRatio(shot.ratio, 0.46)"
+                  >
+                    <app-image [sources]="shot.sources" [alt]="shot.alt" sizes="240px" />
+                  </div>
+                  <figcaption>{{ shot.label }}</figcaption>
+                </figure>
+              </li>
+            }
+          </ul>
+        }
+      </section>
+    }
+
+    <nav class="shell pager" aria-label="Other projects">
+      @if (neighbours().previous; as previous) {
+        <a class="pager__link pager__link--prev" [routerLink]="['/work', previous.id]">
+          <span class="eyebrow">Previous</span>
+          <span class="pager__title">{{ previous.title }}</span>
+        </a>
+      }
+      @if (neighbours().next; as next) {
+        <a class="pager__link pager__link--next" [routerLink]="['/work', next.id]">
+          <span class="eyebrow">Next</span>
+          <span class="pager__title">{{ next.title }}</span>
+        </a>
+      }
+    </nav>
+  </article>
+} @else {
+  <app-not-found
+    message="There is no project with that address. It may have been renamed since you saved the link."
+  />
+}
