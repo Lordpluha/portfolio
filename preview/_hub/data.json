@@ -1,0 +1,266 @@
+[
+  {
+    "slug": "cabhub",
+    "title": "CabHUB",
+    "sub": "Лендинг службы такси",
+    "stack": [
+      "Gulp 4",
+      "Webpack 5",
+      "SCSS",
+      "адаптив"
+    ],
+    "verdict": "ready",
+    "note": "Самая законченная коммерческая вёрстка: чистый десктоп, полноценный адаптив с бургер-меню, 0 ошибок."
+  },
+  {
+    "slug": "cube",
+    "title": "Cube",
+    "sub": "Сайт креативного агентства",
+    "stack": [
+      "HTML",
+      "SCSS",
+      "JS"
+    ],
+    "verdict": "ready",
+    "note": "Рендерится полностью и аккуратно на 1440 и 390. Убран фантомный горизонтальный скролл."
+  },
+  {
+    "slug": "fesco",
+    "title": "Fesco",
+    "sub": "Корпоративный сайт",
+    "stack": [
+      "HTML",
+      "SCSS",
+      "jQuery"
+    ],
+    "verdict": "ready",
+    "note": "Из index.html вырезано 37 строк PHP с креденшелами БД, которые браузер рендерил как текст."
+  },
+  {
+    "slug": "lian",
+    "title": "LIAN",
+    "sub": "Многостраничник креативного агентства (5 страниц)",
+    "stack": [
+      "HTML",
+      "SCSS",
+      "jQuery",
+      "слайдеры"
+    ],
+    "verdict": "partial",
+    "note": "Восстановлен «полетевший» SCSS главной. 2 из 7 заявленных страниц не существуют в исходнике."
+  },
+  {
+    "slug": "zerno",
+    "title": "ZERNO",
+    "sub": "Лендинг",
+    "stack": [
+      "Gulp 4",
+      "Webpack 5",
+      "SCSS",
+      "Swiper"
+    ],
+    "verdict": "partial",
+    "note": "Починен webpack — сайт работал вообще без JS. Нет мобильного адаптива."
+  },
+  {
+    "slug": "sublime",
+    "title": "Sublime",
+    "sub": "Лендинг",
+    "stack": [
+      "HTML",
+      "SCSS",
+      "jQuery"
+    ],
+    "verdict": "partial",
+    "note": "Десктоп отличный, все 28 изображений на месте. Ноль media-запросов — адаптива нет."
+  },
+  {
+    "slug": "fnd",
+    "title": "FND",
+    "sub": "Многостраничный корпоративный сайт",
+    "stack": [
+      "HTML",
+      "SCSS",
+      "jQuery"
+    ],
+    "verdict": "partial",
+    "note": "Навигации между страницами не существовало — связал. Починен баг двойного клика в бургере."
+  },
+  {
+    "slug": "gameblog",
+    "title": "GameBlog",
+    "sub": "Игровой портал",
+    "stack": [
+      "Next.js 14",
+      "TypeScript",
+      "NextUI",
+      "Turborepo"
+    ],
+    "verdict": "partial",
+    "note": "Проект никогда не собирался: 14 подряд падений build. Контент — демо-заглушки."
+  },
+  {
+    "slug": "amazon-tables",
+    "title": "Amazon Tables",
+    "sub": "Тестовое задание для amazon.com",
+    "stack": [
+      "React 18",
+      "Vite",
+      "TypeScript",
+      "SCSS"
+    ],
+    "verdict": "partial",
+    "note": "Сортировка, фильтры, пагинация и drill-down работают на фикстурах вместо живого API."
+  },
+  {
+    "slug": "hellome-money-landing",
+    "title": "Hello Money",
+    "sub": "Лендинг финтех-продукта",
+    "stack": [
+      "React 18",
+      "Vite",
+      "TypeScript",
+      "Tailwind"
+    ],
+    "verdict": "partial",
+    "note": "Статика ужата 66 МБ → 1.5 МБ пиксель-в-пиксель. Починен basename роутера."
+  },
+  {
+    "slug": "boostfolia",
+    "title": "Boostfolia",
+    "sub": "Лендинг-портфолио",
+    "stack": [
+      "Gulp 4",
+      "SCSS",
+      "jQuery"
+    ],
+    "verdict": "partial",
+    "note": "Технически чисто, но дизайн объективно не доделан: пустая галерея и секция клиентов."
+  },
+  {
+    "slug": "messenger-layout",
+    "title": "Messenger Layout",
+    "sub": "Пиксель-перфект копия интерфейса мессенджера",
+    "stack": [
+      "HTML",
+      "SCSS",
+      "SF Pro"
+    ],
+    "verdict": "partial",
+    "note": "Вёрстка точная. Дубликат telegram-copy-layout — показывать стоит только один."
+  },
+  {
+    "slug": "telegram-copy-layout",
+    "title": "Telegram Copy",
+    "sub": "Тестовое задание: копия интерфейса",
+    "stack": [
+      "HTML",
+      "CSS",
+      "SF Pro"
+    ],
+    "verdict": "partial",
+    "note": "Тот же проект, что messenger-layout, но без SCSS-исходников."
+  },
+  {
+    "slug": "portfolio",
+    "title": "Portfolio (старое)",
+    "sub": "Прошлый сайт-портфолио",
+    "stack": [
+      "Next.js 14",
+      "Tailwind"
+    ],
+    "verdict": "skip",
+    "note": "Помечен на удаление по твоему решению; заменяется новым Angular-портфолио."
+  },
+  {
+    "slug": "gulp-template",
+    "title": "Gulp Template",
+    "sub": "Схема работы сборки (документация)",
+    "stack": [
+      "Gulp 4",
+      "SCSS"
+    ],
+    "verdict": "ready",
+    "note": "Заменён пустой стартер на страницу с реальным графом gulp-тасков и 14-ступенчатым SCSS-пайплайном. На английском."
+  },
+  {
+    "slug": "webpack-template",
+    "title": "Webpack Template",
+    "sub": "Схема работы сборки (документация)",
+    "stack": [
+      "Webpack 5",
+      "SCSS"
+    ],
+    "verdict": "ready",
+    "note": "Страница с четырьмя loader-цепочками в порядке исполнения и сравнением dev/prod конфигов. На английском."
+  },
+  {
+    "slug": "chronos",
+    "title": "Chronos",
+    "sub": "Календарь и таск-менеджер",
+    "stack": [
+      "React 19",
+      "Vite 7",
+      "Tailwind v4",
+      "Express",
+      "MongoDB"
+    ],
+    "verdict": "ready",
+    "note": "Открывается сразу на календаре: 31 событие, 3 календаря, 4 повторяющиеся серии. Починен баг рекуррентности (Invalid Date)."
+  },
+  {
+    "slug": "uevent",
+    "title": "uEvent",
+    "sub": "Платформа событий и продажи билетов",
+    "stack": [
+      "React Router v7",
+      "TypeScript",
+      "Vite 7",
+      "NestJS",
+      "Stripe"
+    ],
+    "verdict": "ready",
+    "note": "Переведён с SSR на SPA. Полный флоу покупки + кабинет организатора. Stripe нигде не подключён."
+  },
+  {
+    "slug": "usof",
+    "title": "USOF",
+    "sub": "Q&A-платформа в духе Stack Overflow",
+    "stack": [
+      "React 19",
+      "Vite 7",
+      "shadcn/ui",
+      "Express",
+      "MySQL"
+    ],
+    "verdict": "ready",
+    "note": "6 пользователей, 10 вопросов, 49 комментариев. Публикация, голосование и MDX-редактор работают в памяти."
+  },
+  {
+    "slug": "card-game",
+    "title": "Wasteland Warlords",
+    "sub": "Карточный батлер на чистом JS",
+    "stack": [
+      "Vanilla ES modules",
+      "Tailwind",
+      "GSAP",
+      "Express",
+      "WebSocket"
+    ],
+    "verdict": "ready",
+    "note": "Бой реально играется по правилам самого проекта, но противник — локальный бот; WebSocket не участвует."
+  },
+  {
+    "slug": "carstore",
+    "title": "CarStore",
+    "sub": "Вёрстка магазина автоаксессуаров",
+    "stack": [
+      "Gulp 4",
+      "SCSS",
+      "PostCSS",
+      "Stylelint"
+    ],
+    "verdict": "partial",
+    "note": "Из ветки carstore.layout. Починены 13 битых @font-face и 5 блокеров сборки. Мобильная шапка сломана."
+  }
+]

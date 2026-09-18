@@ -1,0 +1,1 @@
+import{r as a}from"./index-CwrEZka8.js";import{f as n,g as o}from"./toggle-group-pCGnzXWB.js";function u(r,s){const t=a.useRef(r),e=n(s);o(()=>{t.current!==r&&e(t.current)},[r,e]),o(()=>{t.current=r},[r])}export{u};

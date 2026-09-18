@@ -1,0 +1,1 @@
+import{u as o,j as e}from"./index-Df8aqace.js";const s=()=>{const r=o();return console.error(r),e.jsx("div",{className:"flex justify-center align-center",children:"Error. Info in console"})},t=s;export{t as default};

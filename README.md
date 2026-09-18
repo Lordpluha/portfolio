@@ -1,96 +1,60 @@
-# Portfolio — Vladyslav Tesliuk
+# portfolio
 
-A static portfolio site for a senior frontend engineer: twenty projects across products, landing
-pages, markup and build tooling, each with its own page, real screenshots and an honest note about
-what the linked demo actually does.
+Angular-портфолио со всеми проектами + статичные превью самих проектов.
 
-Built with **Angular 22** (standalone components, signals, the `@if` / `@for` control flow) and
-prerendered to static HTML with `@angular/ssr`, so every route is a real file. Nothing is fetched
-from a third party at runtime — fonts are self-hosted subsets and all imagery is bundled WebP.
+## Структура
 
-## Requirements
+```
+portfolio-app/     исходники портфолио (Angular 22, SSR-пререндер, Dockerfile, nginx.conf)
+portfolio-dist/    последняя локальная сборка (для быстрого просмотра без npm install)
+preview/           21 проект, подготовленный к статичному показу + локальная навигация
+reports/           отчёт по каждому проекту со списком дефектов
+shots/             скриншоты рендера портфолио (light/dark x 390/1440/1920)
+.github/workflows/ деплой на GitHub Pages и публикация образа в GHCR
+```
 
-- Node.js `^22.22.3 || ^24.15.0 || >=26` (the Angular 22 CLI enforces this)
-- npm 10 or newer
-
-## Local development
+## Разработка
 
 ```bash
+cd portfolio-app
 npm install
 npm start            # http://localhost:4200
+npm run build        # сборка + tools/postbuild.mjs (пререндер 23 маршрутов)
 ```
 
-Other scripts:
+## Посмотреть собранную версию без сборки
+
+Сайт собран под подпуть `/portfolio/`, поэтому раздавать нужно на уровень выше:
 
 ```bash
-npm run build        # static build with base href "/", output in dist/portfolio-app/browser
-npm run build:pages  # the same build with base href "/portfolio/" for GitHub Pages
-npm test             # unit tests (vitest)
-npm run format       # prettier
-npm run fonts:sync   # re-copy the WOFF2 subsets out of the @fontsource packages
+mkdir -p .serve && ln -sfn ../portfolio-dist .serve/portfolio
+cd .serve && python3 -m http.server 8080
+# http://localhost:8080/portfolio/
 ```
 
-## Content and imagery
-
-Both are generated, not hand-written:
-
-- `src/app/core/portfolio.generated.ts` — projects, categories and owner details.
-- `src/app/core/media.generated.ts` + `public/img/**` — responsive WebP derived from the raw
-  screenshots.
-
-Edit the source data and re-run the generators rather than editing the generated files:
+## Превью проектов
 
 ```bash
-PROJECTS_JSON=../portfolio-data/projects.json npm run generate:data
-SHOTS_DIR=../shots PROJECTS_JSON=../portfolio-data/projects.json npm run generate:media
+cd preview && python3 -m http.server 8081   # http://localhost:8081/
 ```
 
-`generate:media` needs Python with Pillow.
+Открывать через `file://` не стоит — относительные пути и fetch там не работают.
 
-## Deploying to GitHub Pages
-
-The site lives at a sub-path, `https://lordpluha.github.io/portfolio/`, so the build needs a
-matching base href:
+## Docker
 
 ```bash
-npm run build:pages
-# publishes dist/portfolio-app/browser
+cd portfolio-app
+docker build -t portfolio .
+docker run -p 8080:80 portfolio
 ```
 
-`tools/postbuild.mjs` copies the prerendered `/404` page to `404.html` and writes `.nojekyll`.
-Because every route is prerendered to its own `index.html`, deep links resolve to real files;
-`404.html` is only reached by addresses that genuinely do not exist.
+Образ ни разу не собирался локально — самое вероятное место поломки связка
+`setcap` + `USER nginx` в Dockerfile.
 
-`.github/workflows/pages.yml` does all of this on every push to `main` and publishes with
-`actions/deploy-pages`.
+## Деплой
 
-## Running the container
+- `.github/workflows/pages.yml` — сборка с `--base-href /<repo>/` и публикация на GitHub Pages.
+  Нужно один раз включить Pages в настройках репозитория (Source: GitHub Actions).
+- `.github/workflows/docker.yml` — сборка образа и push в `ghcr.io/lordpluha/portfolio`.
 
-```bash
-docker build -t ghcr.io/lordpluha/portfolio .
-docker run -p 8080:80 ghcr.io/lordpluha/portfolio
-# http://localhost:8080
-```
-
-Multi-stage: Node 24 builds the app, `nginx:alpine` serves the static output. The server runs as
-the unprivileged `nginx` user — port 80 is bound through `cap_net_bind_service` on the binary
-rather than by running the master process as root. `nginx.conf` sets gzip, immutable caching for
-content-hashed assets and images, `no-cache` for HTML, and an SPA fallback.
-
-One deliberate difference from GitHub Pages: under nginx an unknown address falls through to
-`index.html` and the router renders the 404 page with a `200` status. If you would rather return a
-real `404`, change the last entry of `try_files` to `=404` and add `error_page 404 /404.html;`.
-
-`.github/workflows/docker.yml` builds and pushes `ghcr.io/lordpluha/portfolio` tagged `latest` and
-with the commit SHA on every push to `main`, authenticating with the workflow's `GITHUB_TOKEN`.
-
-## Accessibility and performance notes
-
-- One `<h1>` per page, real landmarks, a skip link, visible focus rings everywhere.
-- Filters are `<button>`s with `aria-pressed`, and the result count is announced through a polite
-  live region.
-- Light and dark are both authored palettes; the toggle persists in `localStorage` inside a
-  `try`/`catch` and falls back to `prefers-color-scheme`.
-- Motion is one short rise on scroll-in, skipped entirely under `prefers-reduced-motion`.
-- Route bundles are lazy-loaded, below-fold images are `loading="lazy"` with `srcset`, and the
-  fonts are latin-only WOFF2 subsets (about 107 KB in total).
+Ни один из воркфлоу ещё не запускался.

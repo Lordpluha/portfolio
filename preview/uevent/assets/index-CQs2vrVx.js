@@ -1,0 +1,1 @@
+import{e as n}from"./toggle-group-pCGnzXWB.js";import{u}from"./useQuery-Bl46zyWC.js";import{m as r,u as s}from"./dtos-CSM63T1g.js";function c(e){return u({queryKey:["users",e],queryFn:()=>s.getOne(e),enabled:!!e,select:r})}function p(){const{isAuthenticated:e,accountType:t}=n();return u({queryKey:["me"],queryFn:()=>s.getMe(),enabled:e&&t==="user",select:r})}export{p as a,c as u};

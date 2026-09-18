@@ -1,0 +1,1 @@
+import{r as a}from"./index-CwrEZka8.js";import{i as n}from"./toggle-group-pCGnzXWB.js";const d=a.forwardRef(function(e,t){const{className:i,render:m,orientation:r="horizontal",...o}=e;return n("div",e,{state:{orientation:r},ref:t,props:[{role:"separator","aria-orientation":r},o]})});export{d as S};

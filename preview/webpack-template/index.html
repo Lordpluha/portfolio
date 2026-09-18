@@ -1,0 +1,549 @@
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>webpack-template — build pipeline</title>
+<meta name="description" content="A walkthrough of the webpack-template configuration: the module graph and loader chains, how dev and prod differ, a table of loaders and plugins, and the known defects.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232b6cb0'/%3E%3Cpath d='M16 6l9 5v10l-9 5-9-5V11z' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#fbfaf8; --panel:#fff; --panel-2:#f2f4f7; --ink:#15171b; --ink-2:#3a3f47;
+  --muted:#666d78; --line:#e2e4e8; --line-2:#cfd3da;
+  --accent:#26608f; --accent-bg:#e7eef6;
+  --ok:#2c7350; --ok-bg:#e6f2eb; --warn:#8a5a12; --warn-bg:#f8efdf;
+  --code:#22252b; --code-bg:#f1f2f5;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111316; --panel:#191c20; --panel-2:#1d2229; --ink:#e9ebef; --ink-2:#c3c8d0;
+    --muted:#949ca8; --line:#2a2e35; --line-2:#3a3f47;
+    --accent:#79b2e4; --accent-bg:#16242f;
+    --ok:#66c795; --ok-bg:#152a20; --warn:#ddb268; --warn-bg:#2d2413;
+    --code:#dfe3e9; --code-bg:#1c2026;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111316; --panel:#191c20; --panel-2:#1d2229; --ink:#e9ebef; --ink-2:#c3c8d0;
+  --muted:#949ca8; --line:#2a2e35; --line-2:#3a3f47;
+  --accent:#79b2e4; --accent-bg:#16242f;
+  --ok:#66c795; --ok-bg:#152a20; --warn:#ddb268; --warn-bg:#2d2413;
+  --code:#dfe3e9; --code-bg:#1c2026;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink); margin:0;
+  font:16px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:980px;margin:0 auto;padding:56px 28px 96px}
+a{color:var(--accent)}
+a:hover{text-decoration:none}
+
+.eyebrow{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 14px;font-weight:600}
+h1{font-size:40px;line-height:1.12;letter-spacing:-.025em;margin:0 0 18px;font-weight:660}
+.lead{font-size:19px;line-height:1.55;color:var(--ink-2);margin:0 0 28px;max-width:70ch}
+h2{font-size:24px;letter-spacing:-.018em;margin:64px 0 6px;font-weight:640}
+h2 + .sub{color:var(--muted);font-size:15px;margin:0 0 26px;max-width:72ch}
+p{margin:0 0 16px;max-width:72ch}
+
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px;padding:0;list-style:none}
+.meta li{font-size:12.5px;border:1px solid var(--line-2);border-radius:999px;padding:4px 12px;color:var(--ink-2);background:var(--panel)}
+.meta li b{font-weight:600;color:var(--ink)}
+
+.rule{height:1px;background:var(--line);border:0;margin:44px 0 0}
+
+figure{margin:0 0 10px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:22px 20px 16px}
+.fig-scroll{overflow-x:auto;overflow-y:hidden}
+figure svg{display:block;height:auto;color:var(--ink)}
+#modgraph{min-width:900px;width:100%}
+#modes{min-width:720px;width:100%}
+figcaption{margin-top:14px;padding-top:13px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px;line-height:1.55}
+figcaption b{color:var(--ink-2);font-weight:600}
+.scrollhint{display:none;color:var(--muted);font-size:12.5px;margin:0 0 10px}
+@media (max-width:900px){.scrollhint{display:block}}
+
+table{border-collapse:collapse;width:100%;font-size:14px;margin:0 0 8px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--panel);margin-bottom:8px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--panel-2);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td code,th code{white-space:nowrap}
+.tname{font-weight:640;white-space:nowrap}
+
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;font-size:.88em;background:var(--code-bg);color:var(--code);padding:1.5px 5px;border-radius:4px}
+pre{background:var(--code-bg);color:var(--code);border:1px solid var(--line);border-radius:10px;padding:15px 17px;overflow-x:auto;margin:0;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;font-size:13px;line-height:1.62;tab-size:2}
+pre code{background:none;padding:0;font-size:inherit;color:inherit}
+.snip{margin:0 0 26px}
+.snip .why{margin:9px 2px 0;color:var(--muted);font-size:13.5px;line-height:1.55;max-width:72ch}
+
+.notes{list-style:none;padding:0;margin:0}
+.notes li{border-left:2px solid var(--line-2);padding:2px 0 2px 17px;margin:0 0 17px;max-width:74ch}
+.notes li.fixed{border-left-color:var(--ok)}
+.notes li.open{border-left-color:var(--warn)}
+.notes .t{font-weight:640;display:block;margin-bottom:3px}
+.notes .d{color:var(--ink-2);font-size:14.5px;line-height:1.58}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  padding:2px 7px;border-radius:5px;margin-right:8px;vertical-align:1.5px}
+.tag-fixed{color:var(--ok);background:var(--ok-bg)}
+.tag-open{color:var(--warn);background:var(--warn-bg)}
+
+.demo{display:flex;flex-wrap:wrap;gap:18px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.demo .btn{flex:0 0 auto;align-self:flex-start;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;font-size:14.5px;padding:10px 20px;border-radius:8px}
+.demo .btn:hover{opacity:.88}
+.demo p{margin:0;font-size:14px;color:var(--muted);flex:1 1 280px;min-width:0}
+
+footer{margin-top:72px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+
+@media (max-width:640px){
+  .wrap{padding:38px 18px 72px}
+  h1{font-size:30px}
+  .lead{font-size:17px}
+  h2{font-size:21px;margin-top:52px}
+  figure{padding:16px 12px 12px}
+  .demo{flex-direction:column;align-items:stretch;padding:18px}
+  .demo .btn{align-self:stretch;text-align:center}
+  .demo p{flex:0 1 auto}
+}
+</style>
+
+<div class="wrap">
+
+<p class="eyebrow">Build pipeline</p>
+<h1>webpack-template</h1>
+<p class="lead">
+  A starter on webpack 5: babel with three presets, SCSS through <code>sass-loader</code> and extracted
+  into its own file, ESLint inside the build, separate dev and prod configurations in one file, and a dev
+  server over https. Below: the module graph, the loader chains as they actually run, and exactly what
+  separates the two modes.
+</p>
+<ul class="meta">
+  <li><b>webpack</b> 5.88</li>
+  <li><b>babel</b> preset-env / react / typescript</li>
+  <li><b>sass</b> sass-loader 13 + dart-sass</li>
+  <li><b>linter</b> eslint-webpack-plugin 4</li>
+  <li><b>configs</b> 2 (dev + prod)</li>
+  <li><b>rules</b> 6 · <b>plugins</b> 3</li>
+</ul>
+
+<hr class="rule">
+
+<h2>What it is and what it solves</h2>
+<p class="sub">A build skeleton for projects that need modular JS, not just markup.</p>
+<p>
+  The starter solves the same problem as the gulp one — take the repetitive setup out of every new
+  project — by a different route. In gulp the pipeline is written as a sequence of file streams; in webpack
+  a single entry point drags in a <b>dependency graph</b>, and everything else is rules about what to do
+  with each kind of node in it. From that follows the one difference that matters in practice:
+  <code>styles.scss</code> ends up in the build not because someone named its path, but because
+  <code>script.js</code> has an <code>import</code> for it.
+</p>
+<p>
+  What is configured above the minimum: aliases (<code>@scss</code>, <code>@img</code>, <code>@js</code>)
+  instead of <code>../../</code> chains; <code>splitChunks: 'all'</code>, which pulls dependencies into
+  their own chunk; content hashes in file names for caching; ESLint wired into the build and failing it on
+  an error in production; and a large block of SEO/Open&nbsp;Graph/Twitter meta that
+  <code>HtmlWebpackPlugin</code> injects into the markup.
+</p>
+
+<h2>Module graph and loader chains</h2>
+<p class="sub">
+  Read straight off <code>webpack.config.js</code>. Loaders are shown in <em>execution</em> order;
+  the config lists them in reverse — the standard and most common source of confusion.
+</p>
+
+<p class="scrollhint">The diagram is wider than the screen — scroll it horizontally.</p>
+<figure>
+<div class="fig-scroll">
+<svg id="modgraph" viewBox="0 0 960 536" role="img"
+     aria-label="webpack-template diagram: the app entry point pulls in the module graph; every file type has its own loader chain — scss goes through sass-loader, css-loader and MiniCssExtractPlugin.loader and yields a separate css file; js goes through babel-loader; images and fonts are handled as asset/resource. Below: the plugins, which operate on the whole graph.">
+  <defs>
+    <marker id="wa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+    <marker id="wa-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="var(--accent)"/>
+    </marker>
+  </defs>
+
+  <!-- column captions -->
+  <g font-size="10.5" font-weight="640" fill="var(--muted)" text-anchor="middle">
+    <text x="105" y="26">entry · test</text>
+    <text x="470" y="26">loader chain — execution order</text>
+    <text x="865" y="26">output</text>
+  </g>
+
+  <!-- lane 1: scss -->
+  <rect x="20" y="48" width="170" height="40" rx="6" fill="var(--accent-bg)" stroke="var(--accent)" stroke-opacity=".6"/>
+  <text x="105" y="65" text-anchor="middle" font-size="11.5" font-weight="640" fill="currentColor">/\.s[ca]ss$/</text>
+  <text x="105" y="79" text-anchor="middle" font-size="9.5" fill="var(--muted)">import '@scss/styles.scss'</text>
+
+  <line x1="190" y1="68" x2="228" y2="68" stroke="var(--accent)" stroke-opacity=".8" stroke-width="1.4" marker-end="url(#wa-a)"/>
+
+  <rect x="232" y="48" width="120" height="40" rx="6" fill="var(--panel)" stroke="currentColor" stroke-opacity=".35"/>
+  <text x="292" y="65" text-anchor="middle" font-size="11" fill="currentColor">sass-loader</text>
+  <text x="292" y="79" text-anchor="middle" font-size="9" fill="var(--muted)">scss → css</text>
+  <line x1="352" y1="68" x2="378" y2="68" stroke="currentColor" stroke-opacity=".45" stroke-width="1.3" marker-end="url(#wa)"/>
+
+  <rect x="382" y="48" width="120" height="40" rx="6" fill="var(--panel)" stroke="currentColor" stroke-opacity=".35"/>
+  <text x="442" y="65" text-anchor="middle" font-size="11" fill="currentColor">css-loader</text>
+  <text x="442" y="79" text-anchor="middle" font-size="9" fill="var(--muted)">url() → modules</text>
+  <line x1="502" y1="68" x2="528" y2="68" stroke="currentColor" stroke-opacity=".45" stroke-width="1.3" marker-end="url(#wa)"/>
+
+  <rect x="532" y="48" width="180" height="40" rx="6" fill="var(--panel)" stroke="currentColor" stroke-opacity=".35"/>
+  <text x="622" y="65" text-anchor="middle" font-size="11" fill="currentColor">MiniCssExtractPlugin.loader</text>
+  <text x="622" y="79" text-anchor="middle" font-size="9" fill="var(--muted)">style-loader instead of it in dev</text>
+  <line x1="712" y1="68" x2="786" y2="68" stroke="currentColor" stroke-opacity=".45" stroke-width="1.3" marker-end="url(#wa)"/>
+
+  <rect x="790" y="48" width="150" height="40" rx="6" fill="var(--panel-2)" stroke="currentColor" stroke-opacity=".45"/>
+  <text x="865" y="72" text-anchor="middle" font-size="11" fill="currentColor" font-family="ui-monospace,Menlo,Consolas,monospace">app.[hash].css</text>
+
+  <!-- lane 2: js -->
+  <rect x="20" y="124" width="170" height="40" rx="6" fill="var(--accent-bg)" stroke="var(--accent)" stroke-opacity=".6"/>
+  <text x="105" y="141" text-anchor="middle" font-size="11.5" font-weight="640" fill="currentColor">/\.m?js$/</text>
+  <text x="105" y="155" text-anchor="middle" font-size="9.5" fill="var(--muted)">excluding node_modules</text>
+
+  <line x1="190" y1="144" x2="228" y2="144" stroke="var(--accent)" stroke-opacity=".8" stroke-width="1.4" marker-end="url(#wa-a)"/>
+
+  <rect x="232" y="124" width="250" height="40" rx="6" fill="var(--panel)" stroke="currentColor" stroke-opacity=".35"/>
+  <text x="357" y="141" text-anchor="middle" font-size="11" fill="currentColor">babel-loader</text>
+  <text x="357" y="155" text-anchor="middle" font-size="9" fill="var(--muted)">presets: ['@babel/preset-env']</text>
+
+  <line x1="482" y1="144" x2="786" y2="144" stroke="currentColor" stroke-opacity=".45" stroke-width="1.3" marker-end="url(#wa)"/>
+  <text x="634" y="138" text-anchor="middle" font-size="9.5" fill="var(--muted)">splitChunks: 'all' — shared code into its own chunk</text>
+
+  <rect x="790" y="124" width="150" height="40" rx="6" fill="var(--panel-2)" stroke="currentColor" stroke-opacity=".45"/>
+  <text x="865" y="141" text-anchor="middle" font-size="11" fill="currentColor" font-family="ui-monospace,Menlo,Consolas,monospace">app.[hash].js</text>
+  <text x="865" y="155" text-anchor="middle" font-size="10.5" fill="var(--muted)" font-family="ui-monospace,Menlo,Consolas,monospace">202.[hash].js</text>
+
+  <!-- lane 3: ts/jsx (unused) -->
+  <rect x="20" y="200" width="170" height="40" rx="6" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-dasharray="5 4"/>
+  <text x="105" y="217" text-anchor="middle" font-size="11.5" font-weight="640" fill="var(--muted)">/\.ts$/ · /\.jsx$/</text>
+  <text x="105" y="231" text-anchor="middle" font-size="9.5" fill="var(--muted)">no such files in the template</text>
+
+  <line x1="190" y1="220" x2="228" y2="220" stroke="currentColor" stroke-opacity=".28" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#wa)"/>
+
+  <rect x="232" y="200" width="250" height="40" rx="6" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-dasharray="5 4"/>
+  <text x="357" y="217" text-anchor="middle" font-size="11" fill="var(--muted)">babel-loader</text>
+  <text x="357" y="231" text-anchor="middle" font-size="9" fill="var(--muted)">+ preset-typescript / preset-react</text>
+
+  <line x1="482" y1="220" x2="786" y2="220" stroke="currentColor" stroke-opacity=".28" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#wa)"/>
+  <text x="634" y="214" text-anchor="middle" font-size="9.5" fill="var(--muted)">rules are here for later; nothing matches them today</text>
+
+  <rect x="790" y="200" width="150" height="40" rx="6" fill="none" stroke="currentColor" stroke-opacity=".28" stroke-dasharray="5 4"/>
+  <text x="865" y="224" text-anchor="middle" font-size="10.5" fill="var(--muted)">the same bundle</text>
+
+  <!-- lane 4: assets -->
+  <rect x="20" y="276" width="170" height="48" rx="6" fill="var(--accent-bg)" stroke="var(--accent)" stroke-opacity=".6"/>
+  <text x="105" y="294" text-anchor="middle" font-size="11" font-weight="640" fill="currentColor">png · svg · jpg · gif</text>
+  <text x="105" y="309" text-anchor="middle" font-size="11" font-weight="640" fill="currentColor">woff · woff2 · ttf · otf</text>
+
+  <line x1="190" y1="300" x2="228" y2="300" stroke="var(--accent)" stroke-opacity=".8" stroke-width="1.4" marker-end="url(#wa-a)"/>
+
+  <rect x="232" y="276" width="250" height="48" rx="6" fill="var(--panel)" stroke="currentColor" stroke-opacity=".35"/>
+  <text x="357" y="294" text-anchor="middle" font-size="11" fill="currentColor">type: 'asset/resource'</text>
+  <text x="357" y="309" text-anchor="middle" font-size="9.5" fill="var(--muted)">+ use: ['file-loader'] — duplicated, see defects</text>
+
+  <line x1="482" y1="300" x2="786" y2="300" stroke="currentColor" stroke-opacity=".45" stroke-width="1.3" marker-end="url(#wa)"/>
+
+  <rect x="790" y="276" width="150" height="48" rx="6" fill="var(--panel-2)" stroke="currentColor" stroke-opacity=".45"/>
+  <text x="865" y="305" text-anchor="middle" font-size="11" fill="currentColor" font-family="ui-monospace,Menlo,Consolas,monospace">[hash][ext]</text>
+
+  <!-- plugins band -->
+  <rect x="20" y="356" width="920" height="160" rx="9" fill="none" stroke="currentColor" stroke-opacity=".4" stroke-dasharray="6 4"/>
+  <text x="480" y="376" text-anchor="middle" font-size="11" font-weight="640" fill="currentColor">plugins — they operate on the whole graph, not on a single file</text>
+
+  <g font-size="9.5" fill="var(--muted)" text-anchor="middle">
+    <rect x="34" y="390" width="214" height="108" rx="6" fill="var(--panel)" stroke="currentColor" stroke-opacity=".35"/>
+    <text x="141" y="410" font-size="11.5" font-weight="640" fill="currentColor">HtmlWebpackPlugin</text>
+    <text x="141" y="428">template templates/pages/</text>
+    <text x="141" y="441">index.html → dist/index.html</text>
+    <text x="141" y="458">injects &lt;script&gt; and &lt;link&gt; itself</text>
+    <text x="141" y="471">for every emitted chunk</text>
+    <text x="141" y="488">+ ~60 SEO / OG / CSP meta tags</text>
+
+    <rect x="257" y="390" width="214" height="108" rx="6" fill="var(--panel)" stroke="currentColor" stroke-opacity=".35"/>
+    <text x="364" y="410" font-size="11.5" font-weight="640" fill="currentColor">MiniCssExtractPlugin</text>
+    <text x="364" y="428">collects the css accumulated</text>
+    <text x="364" y="441">by its loader and writes it</text>
+    <text x="364" y="454">as a separate file instead</text>
+    <text x="364" y="467">of injecting into &lt;head&gt;</text>
+    <text x="364" y="488">name: filename('css')</text>
+
+    <rect x="480" y="390" width="214" height="108" rx="6" fill="var(--panel)" stroke="currentColor" stroke-opacity=".35"/>
+    <text x="587" y="410" font-size="11.5" font-weight="640" fill="currentColor">ESLintPlugin</text>
+    <text x="587" y="428">lints ./src in parallel</text>
+    <text x="587" y="441">with the build</text>
+    <text x="587" y="462">failOnError: isProd —</text>
+    <text x="587" y="475">in prod a lint error</text>
+    <text x="587" y="488">fails the build</text>
+
+    <rect x="703" y="390" width="214" height="108" rx="6" fill="var(--panel)" stroke="var(--accent)" stroke-opacity=".55"/>
+    <text x="810" y="410" font-size="11.5" font-weight="640" fill="currentColor">optimization.minimizer</text>
+    <text x="810" y="428">CssMinimizerPlugin — css</text>
+    <text x="810" y="441">TerserPlugin — js</text>
+    <text x="810" y="462" fill="var(--accent)" font-weight="640">only when isProd:</text>
+    <text x="810" y="475" fill="var(--accent)" font-weight="640">minimize: false in dev,</text>
+    <text x="810" y="488" fill="var(--accent)" font-weight="640">the minimizer list is empty</text>
+  </g>
+</svg>
+</div>
+<figcaption>
+  The key difference from gulp: <b>nothing here enumerates files</b>. There is one entry point,
+  <code>entry.app = ['@babel/polyfill', './assets/js/script.js']</code>, and everything else gets into the
+  build through <code>import</code>. Order in a loader chain matters and is <b>the reverse</b> of the order
+  it is written in: the config says <code>[MiniCssExtract.loader, css-loader, sass-loader]</code>, and it
+  runs bottom-up — sass first, and last the loader that decides where the result goes.
+</figcaption>
+</figure>
+
+<h2>How dev and prod differ</h2>
+<p class="sub">
+  <code>module.exports</code> is an array of two configurations built from one shared object with
+  <code>Object.assign</code>. The differences come down to five lines.
+</p>
+
+<figure>
+<div class="fig-scroll">
+<svg id="modes" viewBox="0 0 960 348" role="img"
+     aria-label="Comparison of the dev and prod configurations of webpack-template: they differ in mode, devtool, how css is delivered, minification and the file-name pattern; both configurations write into the same dist directory with the clean option turned on.">
+  <defs>
+    <marker id="ma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="currentColor"/>
+    </marker>
+  </defs>
+
+  <!-- dev panel -->
+  <rect x="20" y="20" width="430" height="234" rx="9" fill="var(--panel)" stroke="currentColor" stroke-opacity=".35"/>
+  <rect x="20" y="20" width="430" height="34" rx="9" fill="var(--panel-2)" stroke="none"/>
+  <text x="36" y="42" font-size="12.5" font-weight="640" fill="currentColor">dev — npm run dev</text>
+  <text x="434" y="42" text-anchor="end" font-size="10" fill="var(--muted)">--config-name dev</text>
+
+  <g font-size="11.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" fill="currentColor">
+    <text x="36" y="82">mode: 'development'</text>
+    <text x="36" y="118">devtool: 'eval'</text>
+    <text x="36" y="154">style-loader → &lt;style&gt; in &lt;head&gt;</text>
+    <text x="36" y="190">minimize: false</text>
+    <text x="36" y="226">filename: '[name].js'</text>
+  </g>
+  <g stroke="currentColor" stroke-opacity=".13">
+    <line x1="36" y1="96" x2="434" y2="96"/><line x1="36" y1="132" x2="434" y2="132"/>
+    <line x1="36" y1="168" x2="434" y2="168"/><line x1="36" y1="204" x2="434" y2="204"/>
+  </g>
+
+  <!-- prod panel -->
+  <rect x="510" y="20" width="430" height="234" rx="9" fill="var(--panel)" stroke="var(--accent)" stroke-opacity=".55"/>
+  <rect x="510" y="20" width="430" height="34" rx="9" fill="var(--accent-bg)" stroke="none"/>
+  <text x="526" y="42" font-size="12.5" font-weight="640" fill="currentColor">prod — npm run build</text>
+  <text x="924" y="42" text-anchor="end" font-size="10" fill="var(--muted)">--config-name prod</text>
+
+  <g font-size="11.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" fill="currentColor">
+    <text x="526" y="82">mode: 'production'</text>
+    <text x="526" y="118">devtool: —</text>
+    <text x="526" y="154">MiniCssExtract → app.[hash].css</text>
+    <text x="526" y="190">CssMinimizer + Terser</text>
+    <text x="526" y="226">filename: '[name].[contenthash].js'</text>
+  </g>
+  <g stroke="currentColor" stroke-opacity=".13">
+    <line x1="526" y1="96" x2="924" y2="96"/><line x1="526" y1="132" x2="924" y2="132"/>
+    <line x1="526" y1="168" x2="924" y2="168"/><line x1="526" y1="204" x2="924" y2="204"/>
+  </g>
+
+  <!-- dev-only extra -->
+  <text x="36" y="246" font-size="9.5" fill="var(--muted)">plus devServer: https via mkcert, watchFiles, error overlay</text>
+
+  <!-- converge -->
+  <polyline points="235,254 235,282 480,282" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="1.4"/>
+  <polyline points="725,254 725,282 480,282" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="1.4"/>
+  <line x1="480" y1="282" x2="480" y2="300" stroke="currentColor" stroke-opacity=".45" stroke-width="1.4" marker-end="url(#ma)"/>
+
+  <rect x="330" y="300" width="300" height="38" rx="7" fill="var(--panel-2)" stroke="currentColor" stroke-opacity=".45"/>
+  <text x="480" y="317" text-anchor="middle" font-size="11.5" font-weight="640" fill="currentColor">the same dist/</text>
+  <text x="480" y="331" text-anchor="middle" font-size="9.5" fill="var(--muted)">output.clean = true in both configurations</text>
+</svg>
+</div>
+<figcaption>
+  Both configurations reference <b>the same object</b>, <code>vendorConfig</code>, so they share one
+  <code>output</code>, one <code>plugins</code> array and one build directory with <code>clean</code>
+  turned on. As long as they are run one at a time (<code>--config-name</code> in the npm scripts) that
+  works; running <code>webpack</code> with no flag builds both in sequence into the same directory, and the
+  second wipes the first. On top of that, <code>isDev</code> is computed from
+  <code>process.env.NODE_ENV</code> once when the module loads, not from the <code>mode</code> field — so
+  the line <code>mode: 'development'</code> by itself does not switch the loader chain.
+</figcaption>
+</figure>
+
+<h2>Loaders and plugins</h2>
+<p class="sub">Everything declared in <code>module.rules</code>, <code>plugins</code> and <code>optimization</code>.</p>
+
+<div class="tablewrap">
+<table>
+<thead><tr><th>Rule / plugin</th><th>What it does</th><th>Takes</th><th>Gives</th></tr></thead>
+<tbody>
+<tr><td class="tname">sass-loader</td><td>Compiles SCSS with dart-sass, <code>api: "modern"</code>, <code>outputStyle: compressed</code></td><td><code>.scss</code>, <code>.sass</code></td><td>CSS text</td></tr>
+<tr><td class="tname">css-loader</td><td>Resolves <code>@import</code> and <code>url()</code>, turning them into module-graph dependencies</td><td>CSS text</td><td>a JS module holding CSS</td></tr>
+<tr><td class="tname">MiniCssExtractPlugin<br>.loader</td><td>Marks the CSS for extraction into its own file instead of script injection; replaced by <code>style-loader</code> in dev</td><td>a JS module holding CSS</td><td>a contribution to <code>app.[hash].css</code></td></tr>
+<tr><td class="tname">style-loader</td><td>The dev variant: inserts styles as a <code>&lt;style&gt;</code> tag at runtime, which gives hot replacement without a reload</td><td>a JS module holding CSS</td><td>injection code in the bundle</td></tr>
+<tr><td class="tname">babel-loader</td><td>Transpiles against the project&#39;s <code>browserslist</code> (<code>&gt; 0.25%, not dead</code>); three preset sets for three extensions</td><td><code>.js</code>, <code>.ts</code>, <code>.jsx</code></td><td>ES5-compatible JS</td></tr>
+<tr><td class="tname">asset/resource<br>+ file-loader</td><td>Copies the binary file into the build and substitutes a URL for it</td><td>images, fonts</td><td>a file in <code>dist/</code> + URL</td></tr>
+<tr><td class="tname">HtmlWebpackPlugin</td><td>Takes the template, wires up every emitted chunk itself, adds the meta-tag block and CSP, minifies in prod</td><td><code>src/templates/pages/index.html</code></td><td><code>dist/index.html</code></td></tr>
+<tr><td class="tname">MiniCssExtractPlugin</td><td>Writes the accumulated CSS as its own file with a content hash</td><td>module graph</td><td><code>dist/app.[hash].css</code></td></tr>
+<tr><td class="tname">ESLintPlugin</td><td>Lints <code>./src</code> during the build; in prod <code>failOnError</code> stops it</td><td><code>./src/**</code></td><td>a report, or a halt</td></tr>
+<tr><td class="tname">TerserPlugin</td><td>JS minification, only when <code>isProd</code></td><td>JS chunks</td><td>compressed chunks</td></tr>
+<tr><td class="tname">CssMinimizerPlugin</td><td>CSS minification, only when <code>isProd</code></td><td><code>app.[hash].css</code></td><td>compressed CSS</td></tr>
+<tr><td class="tname">splitChunks</td><td><code>chunks: 'all'</code> — shared and vendor code goes into its own chunk, so it caches independently of the application code</td><td>module graph</td><td><code>202.[hash].js</code></td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Key excerpts</h2>
+<p class="sub">Four places that decide how the build behaves.</p>
+
+<div class="snip">
+<pre><code>const isDev  = process.env.NODE_ENV !== "production",
+      isProd = !isDev
+
+const filename = ext =&gt; isDev ? `[name].${ext}` : `[name].[contenthash].${ext}`</code></pre>
+<p class="why">The only mode switch in the whole file. The hash goes into the name in prod only: in dev
+it would get in the way, producing a new file on every rebuild. The flip side is in the defects list —
+<code>isDev</code> depends on an environment variable rather than on <code>mode</code>, so the mode is set
+by the npm script through <code>cross-env</code>, and running <code>webpack</code> directly gives you
+something other than what you expect.</p>
+</div>
+
+<div class="snip">
+<pre><code>{
+    test: /\.s[ca]ss$/,
+    use: [
+        isDev ? "style-loader" : MiniCssExtractPlugin.loader,
+        { loader: "css-loader", options: { sourceMap: isDev } },
+        { loader: "sass-loader", options: {
+            implementation: require.resolve("sass"),
+            api: "modern",
+            sassOptions: { outputStyle: "compressed" }
+        }}
+    ]
+}</code></pre>
+<p class="why">The chain runs bottom-up. Swapping the top link is the only difference between the modes:
+in dev the styles live inside the bundle and are replaced on the fly, in prod they are extracted into a
+file the browser caches separately from the JS.</p>
+</div>
+
+<div class="snip">
+<pre><code>resolve: {
+    alias: {
+        "@": srcFolder,
+        '@img':  path.join(srcFolder, 'assets/img'),
+        "@js":   path.join(srcFolder, 'assets/js/'),
+        "@scss": path.join(srcFolder, 'assets/styles/')
+    },
+    extensions: ['.js', '.json', '.jsx', '.ts', '.tsx']
+}</code></pre>
+<p class="why">Aliases take <code>../../</code> out of the imports and make moving a file safe.
+<code>extensions</code> lets you write <code>import x from './modules/design'</code> with no extension —
+and it also explains why the rules cover <code>.ts</code> and <code>.jsx</code>: the starter assumes
+TypeScript or React will be added to the project.</p>
+</div>
+
+<div class="snip">
+<pre><code>optimization: {
+    splitChunks: { chunks: 'all' },
+    minimize: isProd,
+    minimizer: isProd ? [ new CssMinimizerPlugin(), new TerserPlugin() ] : []
+}</code></pre>
+<p class="why">In the demo build this rule produces the second file, <code>202.[hash].js</code> — that is
+where <code>@babel/polyfill</code> from the entry point went. The point is caching: application code
+changes often, dependencies rarely, and splitting them keeps the browser from re-downloading the second
+along with the first.</p>
+</div>
+
+<h2>Known defects</h2>
+<p class="sub">
+  An honest list. The first four are what had to be fixed: out of the box the build died before the
+  config had even been read. The rest is still in the code.
+</p>
+
+<ul class="notes">
+  <li class="fixed"><span class="t"><span class="tag tag-fixed">fixed</span>An ajv version conflict killed the config at <code>require</code> time</span>
+    <span class="d"><code>Cannot find module 'ajv/dist/compile/codegen'</code>. The outdated
+    <code>optimize-css-assets-webpack-plugin</code> pulls ajv@6 into the root <code>node_modules</code>,
+    while <code>ajv-keywords@5</code> (via <code>schema-utils</code> → <code>mini-css-extract-plugin</code>)
+    needs ajv@8. The plugin was replaced with <code>css-minimizer-webpack-plugin</code>, which was already
+    in the dependencies.</span></li>
+
+  <li class="fixed"><span class="t"><span class="tag tag-fixed">fixed</span>TLS certificate read at the top level of the module</span>
+    <span class="d"><code>fs.readFileSync</code> for the dev-server certificate ran while the config was
+    being <em>loaded</em>, so a missing <code>src/certs/webpack-2023+1.pem</code> broke the production build
+    as well — and the repository holds only <code>mkcert.exe</code>, no <code>.pem</code> at all. Wrapped in
+    <code>fs.existsSync</code> with a fallback to http.</span></li>
+
+  <li class="fixed"><span class="t"><span class="tag tag-fixed">fixed</span>Wrong path to the page template</span>
+    <span class="d"><code>HtmlWebpackPlugin</code> had <code>./pages/index.html</code> written into it,
+    while the only html file sits at <code>src/templates/pages/index.html</code>.</span></li>
+
+  <li class="fixed"><span class="t"><span class="tag tag-fixed">fixed</span>Styles never made it into the build at all</span>
+    <span class="d">The entry point is <code>assets/js/script.js</code> alone, and no module imported
+    <code>styles.scss</code>. So <code>sass-loader</code> and <code>MiniCssExtractPlugin</code> were
+    configured but dead, and the page was built without a single style.
+    <code>import '@scss/styles.scss'</code> was added; that then surfaced <code>@import "_fonts.scss"</code>
+    and <code>"_preloader.scss"</code> against files with no underscore — fixed too.</span></li>
+
+  <li class="open"><span class="t"><span class="tag tag-open">open</span><code>isDev</code> is not tied to <code>mode</code></span>
+    <span class="d">The mode the loaders see comes from an environment variable; the configuration's
+    <code>mode</code> field has no effect on them. Running <code>webpack --config-name dev</code> without
+    <code>NODE_ENV=development</code> gives you webpack's dev mode but the prod loader chain. The only thing
+    holding this together is <code>cross-env</code> in the npm scripts.</span></li>
+
+  <li class="open"><span class="t"><span class="tag tag-open">open</span>Two configurations share one object and one directory</span>
+    <span class="d"><code>Object.assign({...}, vendorConfig)</code> copies references, so dev and prod use
+    the same plugin instances, the same <code>output</code> and the same <code>dist</code> with
+    <code>clean: true</code>. Running both configurations in one pass means the second erases the first's
+    result.</span></li>
+
+  <li class="open"><span class="t"><span class="tag tag-open">open</span><code>type: 'asset/resource'</code> and <code>file-loader</code> at the same time</span>
+    <span class="d">In webpack 5, <code>asset/resource</code> is the built-in replacement for
+    <code>file-loader</code>. Naming both in one rule is a conflict: the file gets processed twice. The
+    defect stays invisible in the demo build only because the single image (<code>AuthCode.png</code>) is
+    imported nowhere.</span></li>
+
+  <li class="open"><span class="t"><span class="tag tag-open">open</span>Dead code and outdated dependencies</span>
+    <span class="d"><code>CopyWebpackPlugin = import('copy-webpack-plugin')</code> assigns a dynamic
+    import to a <code>const</code>, so the variable holds a promise; the block that uses it is commented
+    out, and as written the plugin would not work. <code>devDependencies</code> still carry
+    <code>optimize-css-assets-webpack-plugin</code> (the one that broke the build) and
+    <code>eslint-loader</code>, superseded by <code>eslint-webpack-plugin</code>.
+    <code>@babel/polyfill</code> has been deprecated since Babel 7.4 in favour of
+    <code>core-js</code> + <code>regenerator-runtime</code>.</span></li>
+
+  <li class="open"><span class="t"><span class="tag tag-open">open</span>Loose ends in the build output</span>
+    <span class="d"><code>&lt;title&gt;</code> is still <code>Document</code>. The CSP allows
+    <code>'unsafe-inline'</code> and <code>'unsafe-eval'</code> in <code>script-src</code>, which throws
+    away most of the point of having a policy at all. git carries <code>src/certs/mkcert.exe</code> — a
+    4.7&nbsp;MB Windows binary — and 57&nbsp;MB of Yu Gothic fonts that cannot reach the build under any
+    circumstances, because <code>fonts.scss</code> is zero bytes.</span></li>
+
+  <li class="open"><span class="t"><span class="tag tag-open">open</span>The demo page is empty in substance</span>
+    <span class="d">The markup is six headings (<code>Preloader</code>, <code>Header</code>,
+    <code>Section 1</code>, <code>Article 1–3</code>, <code>Aside</code>, <code>Footer</code>), and the
+    block SCSS partials are selectors with no properties. What is worth judging here is the configuration,
+    not the result.</span></li>
+</ul>
+
+<h2>Build output</h2>
+<p class="sub">
+  After the fixes <code>npm run build</code> runs clean and produces <code>index.html</code>,
+  <code>app.[hash].css</code>, <code>app.[hash].js</code> and the vendor chunk <code>202.[hash].js</code>.
+</p>
+<div class="demo">
+  <a class="btn" href="demo/">Open the built page</a>
+  <p>The pipeline's output as it is: six placeholder blocks, styles linked as a separate content-hashed
+  file, scripts split into two chunks, the whole meta-tag block injected by the plugin. The page is here as
+  proof that the build works, not as a sample of markup.</p>
+</div>
+
+<footer>
+  Diagrammed from the code on the <code>main</code> branch: <code>webpack.config.js</code>,
+  <code>package.json</code>, <code>src/assets/js/script.js</code>. Loader names, chain order and the
+  differences between the configurations are taken from the sources without simplification.
+</footer>
+
+</div>

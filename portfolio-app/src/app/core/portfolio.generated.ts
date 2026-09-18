@@ -1,0 +1,738 @@
+// GENERATED FILE — produced by tools/build_data.mjs from projects.json.
+// Do not edit by hand; edit the source data and re-run the generator.
+
+export type CategoryId = "product" | "landing" | "layout" | "tooling";
+
+export interface Category {
+  readonly id: CategoryId;
+  readonly label: string;
+}
+
+export interface Project {
+  readonly id: string;
+  readonly title: string;
+  readonly tagline: string;
+  readonly category: CategoryId;
+  readonly year: string;
+  readonly featured: boolean;
+  readonly stack: readonly string[];
+  readonly summary: string;
+  readonly highlights: readonly string[];
+  /** Slug of the published demo, or null when there is nothing to link to. */
+  readonly demo: string | null;
+  /** Honest caveat about what the demo actually does. Never hidden. */
+  readonly demoNote: string | null;
+  /** null for work whose source is not public. */
+  readonly repo: string | null;
+  readonly repoBranch?: string;
+}
+
+export type ProfileId = "github" | "linkedin" | "stackoverflow" | "codewars" | "codepen" | "telegram" | "instagram";
+
+/** One reachable phone number, in both dialling and reading form. */
+export interface Phone {
+  /** Country the number belongs to, e.g. "Poland". */
+  readonly label: string;
+  /** Dialling form, for the tel: href. */
+  readonly e164: string;
+  /** Grouped form, for reading on screen. */
+  readonly display: string;
+}
+
+/** One external profile. The id doubles as the icon name. */
+export interface Profile {
+  readonly id: ProfileId;
+  readonly label: string;
+  readonly handle: string;
+  readonly url: string;
+}
+
+export interface Owner {
+  readonly name: string;
+  readonly handle: string;
+  readonly role: string;
+  readonly positioning: string;
+  /** About-page biography, one string per paragraph. */
+  readonly bio: readonly string[];
+  /** One line, as it reads on the CV. */
+  readonly education: string;
+  readonly location: string;
+  readonly availability: string;
+  readonly github: string;
+  readonly email: string;
+  readonly skills: Readonly<Record<string, readonly string[]>>;
+  readonly phones: readonly Phone[];
+  readonly profiles: readonly Profile[];
+}
+
+export const OWNER: Owner = {
+  "name": "Vladyslav Tesliuk",
+  "handle": "Lordpluha",
+  "role": "Senior Frontend Developer & Team Lead",
+  "positioning": "Seven years in frontend, three of them leading teams. React, Next.js and TypeScript — App Router architecture, Feature-Sliced Design in a monorepo, and the release process around it.",
+  "location": "Warsaw, Poland",
+  "availability": "Open to new roles",
+  "github": "https://github.com/Lordpluha",
+  "email": "tesluakevlad@gmail.com",
+  "skills": {
+    "Core": [
+      "TypeScript",
+      "JavaScript",
+      "HTML",
+      "CSS / SCSS",
+      "Accessibility",
+      "Cross-browser"
+    ],
+    "Frameworks": [
+      "React",
+      "Next.js",
+      "React Native",
+      "React Router"
+    ],
+    "State & data": [
+      "Redux Toolkit",
+      "RTK Query",
+      "TanStack Query",
+      "Zod"
+    ],
+    "Styling": [
+      "Tailwind",
+      "SCSS architecture",
+      "shadcn/ui",
+      "Radix"
+    ],
+    "Build & tooling": [
+      "Vite",
+      "Webpack",
+      "Gulp",
+      "Turborepo",
+      "pnpm",
+      "Docker"
+    ],
+    "Backend": [
+      "Node.js",
+      "NestJS",
+      "Express",
+      "Prisma",
+      "TypeORM",
+      "PostgreSQL",
+      "MongoDB"
+    ],
+    "Languages": [
+      "English B2",
+      "Polish A2",
+      "Ukrainian native",
+      "Russian native"
+    ]
+  },
+  "phones": [
+    {
+      "label": "Poland",
+      "e164": "+48883599424",
+      "display": "+48 883 599 424"
+    },
+    {
+      "label": "Ukraine",
+      "e164": "+380689448449",
+      "display": "+380 68 944 8449"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "github",
+      "label": "GitHub",
+      "handle": "Lordpluha",
+      "url": "https://github.com/Lordpluha"
+    },
+    {
+      "id": "linkedin",
+      "label": "LinkedIn",
+      "handle": "vladyslavtesliuk",
+      "url": "https://www.linkedin.com/in/vladyslavtesliuk/"
+    },
+    {
+      "id": "stackoverflow",
+      "label": "Stack Overflow",
+      "handle": "18178829",
+      "url": "https://stackoverflow.com/users/18178829"
+    },
+    {
+      "id": "codewars",
+      "label": "Codewars",
+      "handle": "Lordpluha",
+      "url": "https://www.codewars.com/users/Lordpluha"
+    },
+    {
+      "id": "codepen",
+      "label": "CodePen",
+      "handle": "lordpluha",
+      "url": "https://codepen.io/lordpluha"
+    },
+    {
+      "id": "telegram",
+      "label": "Telegram",
+      "handle": "tesliukVlad",
+      "url": "https://t.me/tesliukVlad"
+    },
+    {
+      "id": "instagram",
+      "label": "Instagram",
+      "handle": "vlados.tesliuk",
+      "url": "https://www.instagram.com/vlados.tesliuk/"
+    }
+  ],
+  "bio": [
+    "Front-end developer with seven years in frontend, three of them leading teams. React, Next.js and TypeScript are where I work now: App Router architecture, Feature-Sliced Design in a monorepo, and the performance and release process around it.",
+    "Most recently I was Senior Front-end Developer and Team Lead at Aventus IT, on the gaming marketplace GGChest. I led a team of four and owned the frontend architecture. I built an agentic development workflow in which subagents implement tasks end to end and engineers move to review and release — task turnaround fell by around 70%, and build time went from roughly fifteen minutes to under one. I onboarded nine engineers and set the team's engineering standards.",
+    "Before that, at Nova Developers Co., I built CRM systems, brochure sites and admin panels in React and Next.js from architecture through release, and led and mentored as many as four teams of three to six engineers in parallel.",
+    "Four years of production markup sit underneath all of it — client sites built solo, end to end, from Figma and PSD, plus custom WordPress themes from scratch. That is why accessibility, semantics and Core Web Vitals ship by default here rather than as a later fix."
+  ],
+  "education": "Bachelor of Modern web programming and game development, NTU “Kharkiv Polytechnic Institute”, 2023–2027 (in progress)"
+};
+
+export const CATEGORIES: readonly Category[] = [
+  {
+    "id": "product",
+    "label": "Products"
+  },
+  {
+    "id": "landing",
+    "label": "Landings"
+  },
+  {
+    "id": "layout",
+    "label": "Markup"
+  },
+  {
+    "id": "tooling",
+    "label": "Tooling"
+  }
+];
+
+export const PROJECTS: readonly Project[] = [
+  {
+    "id": "bitrate",
+    "title": "Bitrate",
+    "tagline": "Open-source music platform — monorepo, design system, documented",
+    "category": "product",
+    "year": "2026",
+    "featured": true,
+    "stack": [
+      "Next.js 16",
+      "React 19",
+      "TypeScript",
+      "NestJS 11",
+      "Prisma 7",
+      "PostgreSQL 16",
+      "Redis",
+      "Turborepo",
+      "Storybook 10",
+      "Docusaurus"
+    ],
+    "summary": "The largest project here: two Next.js applications, a NestJS API, a shared React design system published to Storybook, and a Docusaurus documentation site — all in one Turborepo.",
+    "highlights": [
+      "308 test files across three layers — by some distance the most thoroughly tested project in this list.",
+      "Design system extracted into its own package with Storybook as the contract.",
+      "Full engineering setup: Biome, commitlint, lefthook, changesets, artifact and token checks in CI."
+    ],
+    "demo": "https://bitrate.me/",
+    "demoNote": "The live platform. The repository here is the source behind it.",
+    "repo": "bitrate"
+  },
+  {
+    "id": "ggchest",
+    "title": "GGChest",
+    "tagline": "Frontend team lead — a team of four",
+    "category": "product",
+    "year": "2024–2026",
+    "featured": true,
+    "stack": [
+      "Next.js App Router",
+      "React",
+      "TypeScript",
+      "Feature-Sliced Design",
+      "Turborepo",
+      "Monorepo"
+    ],
+    "summary": "Senior Front-end Developer and Team Lead. I led a team of four and owned the frontend architecture — Next.js App Router, TypeScript and Feature-Sliced Design in a monorepo — together with the build and release process around it.",
+    "highlights": [
+      "Built an agentic development workflow in which subagents implement tasks end to end and engineers move to review and release — turnaround on a task fell by around 70%.",
+      "Cut the production build from roughly fifteen minutes to under one.",
+      "Onboarded nine engineers onto the codebase and set the team's engineering standards."
+    ],
+    "demo": "https://ggchest.com/",
+    "demoNote": "A commercial product; its source is private and stays that way. What is described here is my part in it, not the product itself.",
+    "repo": null
+  },
+  {
+    "id": "chronos",
+    "title": "Chronos",
+    "tagline": "Calendar and task manager with sharing and Google Calendar sync",
+    "category": "product",
+    "year": "2026",
+    "featured": true,
+    "stack": [
+      "React 19",
+      "Vite 7",
+      "React Router 7",
+      "TanStack Query",
+      "Tailwind v4",
+      "shadcn/ui",
+      "Express 5",
+      "MongoDB",
+      "Turborepo",
+      "Docker"
+    ],
+    "summary": "Multiple colour-coded calendars, recurring events, task lists with tags and priorities, reminders, calendar and event sharing with access levels, two-way Google Calendar integration, TOTP two-factor auth.",
+    "highlights": [
+      "Day, week, month and year views over a single event model with recurrence expansion.",
+      "Sharing model with per-entity access levels, on top of an Express + Mongoose API.",
+      "Found and fixed a recurrence bug where every repeating event rendered an invalid time — dayjs was parsing a format without the plugin that understands it."
+    ],
+    "demo": "chronos",
+    "demoNote": "Runs on demo data and opens as a signed-in example user.",
+    "repo": "chronos"
+  },
+  {
+    "id": "uevent",
+    "title": "uEvent",
+    "tagline": "Event discovery and ticketing platform with organiser payouts",
+    "category": "product",
+    "year": "2026",
+    "featured": true,
+    "stack": [
+      "React 19",
+      "React Router v7",
+      "TypeScript",
+      "Vite 7",
+      "Tailwind v4",
+      "TanStack Query",
+      "NestJS 11",
+      "TypeORM",
+      "PostgreSQL",
+      "Stripe Connect"
+    ],
+    "summary": "Event catalogue with format, tag, date and geo filters; event pages with galleries, attendees and comments; ticket purchase through Stripe Connect; organiser dashboards with wallet, revenue charts, promo codes and withdrawal requests.",
+    "highlights": [
+      "22 pages across 23 routes in a Feature-Sliced Design layout, fully typed.",
+      "Two-sided marketplace: attendee purchase flow and organiser financial dashboard, including payouts.",
+      "Bilingual interface (English / Ukrainian) with locale-aware formatting."
+    ],
+    "demo": "uevent",
+    "demoNote": "Runs on demo data. The purchase flow ends at a demo confirmation screen.",
+    "repo": "uevent"
+  },
+  {
+    "id": "usof",
+    "title": "USOF",
+    "tagline": "Stack Overflow-style Q&A platform with moderation",
+    "category": "product",
+    "year": "2026",
+    "featured": true,
+    "stack": [
+      "React 19",
+      "Vite 7",
+      "React Router 7",
+      "TanStack Query",
+      "Tailwind v4",
+      "shadcn/ui",
+      "MDXEditor",
+      "Zod",
+      "Express 5",
+      "MySQL"
+    ],
+    "summary": "Questions with a Markdown editor, threaded comments and replies, voting, categories, bookmarks, profiles, notifications, roles and moderation. Feature-Sliced Design across 20 pages, 5 entities and 7 features.",
+    "highlights": [
+      "Markdown authoring with live preview, syntax-highlighted code blocks and schema validation on submit.",
+      "Reputation mechanics — voting, bookmarks and role-gated moderation actions.",
+      "Backend written against raw SQL rather than an ORM, which made the query layer explicit."
+    ],
+    "demo": "usof",
+    "demoNote": "Runs on demo data — posting, voting and commenting work in the browser.",
+    "repo": "usof"
+  },
+  {
+    "id": "card-game",
+    "title": "Wasteland Warlords",
+    "tagline": "Real-time multiplayer card battler, built without a framework",
+    "category": "product",
+    "year": "2026",
+    "featured": true,
+    "stack": [
+      "Vanilla JS (ES modules)",
+      "HTML",
+      "CSS",
+      "Tailwind",
+      "GSAP",
+      "Express",
+      "MySQL",
+      "WebSocket"
+    ],
+    "summary": "Account system, lobby with room codes, deck selection, real-time turn-based battles over WebSocket, card collection, booster packs, card merging and upgrading.",
+    "highlights": [
+      "Written in plain ES modules with no bundler — routing, state and rendering all hand-rolled.",
+      "Turn-based battle protocol over `ws`, with a server-authoritative combat resolution step.",
+      "Card economy: packs, duplicates, merging and upgrade tiers."
+    ],
+    "demo": "card-game",
+    "demoNote": "Static demo: the battle runs against a local bot using the project's own combat rules.",
+    "repo": "card-game"
+  },
+  {
+    "id": "gameblog",
+    "title": "GameBlog",
+    "tagline": "Gaming news portal, modelled on StopGame",
+    "category": "product",
+    "year": "2025",
+    "featured": false,
+    "stack": [
+      "Next.js 14",
+      "TypeScript",
+      "NextUI",
+      "Turborepo",
+      "pnpm"
+    ],
+    "summary": "An attempt to rebuild StopGame — one of the larger gaming media sites — from scratch: news, blogs, streams, guides and cheats, laid out as a Turborepo with a shared UI package and a theme system.",
+    "highlights": [
+      "Written as a study of how a real editorial portal is put together, rather than from a design file.",
+      "App Router with a themed component layer on NextUI.",
+      "Hero slider, category grids, sidebar and a full footer, all responsive."
+    ],
+    "demo": "gameblog",
+    "demoNote": null,
+    "repo": "GameBlog"
+  },
+  {
+    "id": "amazon-tables",
+    "title": "Amazon Tables",
+    "tagline": "Data table with server-side search, sorting and drill-down",
+    "category": "product",
+    "year": "2024",
+    "featured": false,
+    "stack": [
+      "React 18",
+      "TypeScript",
+      "Vite",
+      "SCSS"
+    ],
+    "summary": "A take-home task for Amazon: paginated tables over an advertising dataset, with per-column search, numeric range filters, sorting, and drill-down from accounts to profiles to campaigns.",
+    "highlights": [
+      "Per-column filter state composed into a single query, with pagination kept in sync.",
+      "Typed table abstraction reused across three different entity shapes."
+    ],
+    "demo": "amazon-tables",
+    "demoNote": "Runs on the task's own sample dataset.",
+    "repo": "amazon-tables"
+  },
+  {
+    "id": "cabhub",
+    "title": "CabHUB",
+    "tagline": "Taxi service landing page",
+    "category": "landing",
+    "year": "2023",
+    "featured": true,
+    "stack": [
+      "Gulp 4",
+      "Webpack 5",
+      "SCSS",
+      "BEM"
+    ],
+    "summary": "A commercial landing page for a cab company: booking form, tariff cards, feature grid, app download block, testimonials and a full footer.",
+    "highlights": [
+      "Custom Gulp pipeline with separate dev and production graphs, plus an automated font conversion task.",
+      "Fully responsive down to 390px with a burger menu — the most polished responsive work in this collection."
+    ],
+    "demo": "cabhub",
+    "demoNote": null,
+    "repo": "CabHUB"
+  },
+  {
+    "id": "hellome-money-landing",
+    "title": "HelloMe Money",
+    "tagline": "Crypto exchange landing — a take-home task",
+    "category": "landing",
+    "year": "2024",
+    "featured": false,
+    "stack": [
+      "React 18",
+      "TypeScript",
+      "Vite",
+      "Tailwind"
+    ],
+    "summary": "A take-home task: the marketing landing page for a crypto exchange product, built as a React application with an illustrated hero and feature sections.",
+    "highlights": [
+      "Figma-sourced vector artwork, reworked from 66 MB of exports down to 1.5 MB with no visible difference.",
+      "Component-driven section layout in Tailwind."
+    ],
+    "demo": "hellome-money-landing",
+    "demoNote": null,
+    "repo": "hellome-money-landing"
+  },
+  {
+    "id": "zerno",
+    "title": "ZERNO",
+    "tagline": "Landing page for a Ukrainian fashion brand",
+    "category": "landing",
+    "year": "2023",
+    "featured": false,
+    "stack": [
+      "Gulp 4",
+      "Webpack 5",
+      "SCSS",
+      "Swiper"
+    ],
+    "summary": "A landing page for a Ukrainian clothing brand, built from a designer's mockups and in direct back-and-forth with them: editorial layout, custom typography, product sliders and scroll animations.",
+    "highlights": [
+      "Built side by side with the brand's designer, with the layout revised against their feedback.",
+      "Documented Gulp + Webpack pipeline with JSDoc output and a release archive task.",
+      "Swiper-driven galleries integrated into a custom SCSS architecture."
+    ],
+    "demo": "zerno",
+    "demoNote": null,
+    "repo": "ZERNO"
+  },
+  {
+    "id": "boostfolia",
+    "title": "Boostfolia",
+    "tagline": "Agency portfolio landing page",
+    "category": "landing",
+    "year": "2023",
+    "featured": false,
+    "stack": [
+      "Gulp 4",
+      "SCSS",
+      "jQuery"
+    ],
+    "summary": "A portfolio landing page with scroll-reveal animation and a full-screen navigation overlay.",
+    "highlights": [
+      "Scroll-triggered reveal system driven by jQuery observers.",
+      "SCSS partial architecture split per section."
+    ],
+    "demo": "boostfolia",
+    "demoNote": null,
+    "repo": "Boostfolia"
+  },
+  {
+    "id": "carstore",
+    "title": "CarStore",
+    "tagline": "Car accessories storefront markup",
+    "category": "layout",
+    "year": "2024",
+    "featured": true,
+    "stack": [
+      "Gulp 4",
+      "SCSS",
+      "PostCSS",
+      "Stylelint",
+      "Font Awesome"
+    ],
+    "summary": "A full e-commerce storefront front page cut from a PSD: account and cart bar, contact header, main navigation, full-height hero, category tiles, featured product cards, promo banner and a three-column footer with a subscription form.",
+    "highlights": [
+      "Markup assembled from partials through gulp-file-include, so sections stay editable in isolation.",
+      "PostCSS chain of eleven plugins alongside Stylelint, ESLint and a complexity check.",
+      "Pixel-accurate against the source PSD."
+    ],
+    "demo": "carstore",
+    "demoNote": null,
+    "repo": "CarStore",
+    "repoBranch": "carstore.layout"
+  },
+  {
+    "id": "lian",
+    "title": "LIAN",
+    "tagline": "Five-page creative agency site",
+    "category": "layout",
+    "year": "2024",
+    "featured": false,
+    "stack": [
+      "HTML",
+      "SCSS",
+      "jQuery",
+      "Custom sliders"
+    ],
+    "summary": "A multi-page agency site — home, about, portfolio, portfolio detail and blog — with hero sliders, a filterable portfolio grid and a typewriter effect.",
+    "highlights": [
+      "Hand-written slider logic rather than a plugin, driving both the hero and the portfolio detail tape.",
+      "Shared SCSS foundation with per-page overrides across five pages."
+    ],
+    "demo": "lian",
+    "demoNote": null,
+    "repo": "LIAN"
+  },
+  {
+    "id": "cube",
+    "title": "Cube",
+    "tagline": "Creative agency one-pager",
+    "category": "layout",
+    "year": "2023",
+    "featured": false,
+    "stack": [
+      "HTML",
+      "SCSS",
+      "JavaScript"
+    ],
+    "summary": "A split-screen agency landing page with a sliding navigation panel, project showcase and contact form.",
+    "highlights": [
+      "Split viewport hero holding its proportions across breakpoints.",
+      "Monospace-led typographic system carried through every section."
+    ],
+    "demo": "cube",
+    "demoNote": null,
+    "repo": "Cube"
+  },
+  {
+    "id": "fesco",
+    "title": "Fesco",
+    "tagline": "Restaurant corporate site",
+    "category": "layout",
+    "year": "2024",
+    "featured": false,
+    "stack": [
+      "HTML",
+      "SCSS",
+      "jQuery",
+      "Gulp"
+    ],
+    "summary": "A corporate site for a restaurant with a photo-led hero, menu sections, gallery and booking form.",
+    "highlights": [
+      "Photography-heavy layout that stays sharp from 1440 down to 390.",
+      "Custom scrollbar and preloader implementation."
+    ],
+    "demo": "fesco",
+    "demoNote": null,
+    "repo": "Fesco"
+  },
+  {
+    "id": "sublime",
+    "title": "Sublime",
+    "tagline": "Game studio landing page",
+    "category": "layout",
+    "year": "2023",
+    "featured": false,
+    "stack": [
+      "HTML",
+      "SCSS",
+      "jQuery"
+    ],
+    "summary": "A landing page for a game studio: nine sections including a hero, game showcase, team, and a large media gallery.",
+    "highlights": [
+      "Twenty-eight art assets composed into a dark, high-contrast layout.",
+      "Section-per-partial SCSS structure."
+    ],
+    "demo": "sublime",
+    "demoNote": null,
+    "repo": "Sublime"
+  },
+  {
+    "id": "fnd",
+    "title": "FND",
+    "tagline": "Multi-page corporate site",
+    "category": "layout",
+    "year": "2023",
+    "featured": false,
+    "stack": [
+      "HTML",
+      "SCSS",
+      "jQuery"
+    ],
+    "summary": "A four-page corporate site — home, services, news and article — built on an asymmetric modular grid.",
+    "highlights": [
+      "Modular grid that recomposes per page while keeping a single visual system.",
+      "Full-screen navigation overlay shared across pages."
+    ],
+    "demo": "fnd",
+    "demoNote": null,
+    "repo": "FND"
+  },
+  {
+    "id": "messenger-layout",
+    "title": "Messenger UI",
+    "tagline": "Secure messenger interface — a take-home task",
+    "category": "layout",
+    "year": "2024",
+    "featured": false,
+    "stack": [
+      "HTML",
+      "SCSS",
+      "SF Pro"
+    ],
+    "summary": "A take-home task for a company building a secure messenger for the Ukrainian military: the desktop interface reproduced from a design file, down to the typographic details.",
+    "highlights": [
+      "Chat list, thread view and composer rebuilt to the pixel against the reference.",
+      "Full SF Pro weight range wired into an SCSS font system."
+    ],
+    "demo": "messenger-layout",
+    "demoNote": null,
+    "repo": "messenger-layout"
+  },
+  {
+    "id": "gulp-template",
+    "title": "Gulp Starter",
+    "tagline": "Documented Gulp 4 build pipeline",
+    "category": "tooling",
+    "year": "2023",
+    "featured": false,
+    "stack": [
+      "Gulp 4",
+      "SCSS",
+      "Webpack",
+      "JSDoc"
+    ],
+    "summary": "A reusable Gulp 4 starter: separate dev and production task graphs, a fourteen-stage SCSS pipeline with two output taps, automated font conversion, an archive task and JSDoc output.",
+    "highlights": [
+      "Task graph composed with series and parallel rather than a flat list.",
+      "Font conversion generates the SCSS @font-face layer from the font files themselves."
+    ],
+    "demo": "gulp-template",
+    "demoNote": "The demo link opens a written breakdown of the build pipeline.",
+    "repo": "gulp-template"
+  },
+  {
+    "id": "webpack-template",
+    "title": "Webpack Starter",
+    "tagline": "Documented Webpack 5 configuration",
+    "category": "tooling",
+    "year": "2024",
+    "featured": false,
+    "stack": [
+      "Webpack 5",
+      "SCSS",
+      "Babel"
+    ],
+    "summary": "A Webpack 5 starter with four loader lanes, a plugin band, and separate development and production configurations sharing one output directory.",
+    "highlights": [
+      "Loader chains documented in execution order, not config order — the direction people get wrong.",
+      "Dev and prod configs compared side by side."
+    ],
+    "demo": "webpack-template",
+    "demoNote": "The demo link opens a written breakdown of the configuration.",
+    "repo": "webpack-template"
+  },
+  {
+    "id": "webster",
+    "title": "Webster",
+    "tagline": "Browser-based design studio — team project, I wrote the backend",
+    "category": "product",
+    "year": "2026",
+    "featured": false,
+    "stack": [
+      "NestJS 11",
+      "GraphQL",
+      "Apollo Server",
+      "MongoDB",
+      "Mongoose",
+      "JWT",
+      "OAuth",
+      "Docker"
+    ],
+    "summary": "A design studio that runs in the browser — posters, slides and layouts on an infinite canvas with a custom 2D engine, plus accounts with email verification, export and link sharing. Built by three people; this is my fork of the team's repository.",
+    "highlights": [
+      "I wrote the backend: the auth module with OAuth and JWT, and the users, projects, assets and templates modules.",
+      "GraphQL API on Apollo Server inside NestJS, with GraphiQL documentation and a complete Postman collection.",
+      "MongoDB through Mongoose, with rate limiting, request sanitisation and structured logging."
+    ],
+    "demo": "webster",
+    "demoNote": "Static demo of the team's frontend on fixture data. The part I wrote is the backend, which is not running here — its source is under apps/backend.",
+    "repo": "webster"
+  }
+];

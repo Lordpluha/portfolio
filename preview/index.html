@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Превью проектов — Vladyslav Tesliuk</title>
+<style>
+:root {
+  --bg:#f6f6f4; --panel:#fff; --ink:#17181a; --muted:#6b6f76; --line:#e3e3df;
+  --ready:#0f7b4f; --ready-bg:#e3f4eb; --partial:#8a5a00; --partial-bg:#fbf0d9;
+  --skip:#6b6f76; --skip-bg:#ececeb; --accent:#c15f3c;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:#131416; --panel:#1c1e21; --ink:#eceef1; --muted:#9aa0a8; --line:#2e3136;
+    --ready:#5fd39b; --ready-bg:#14301f; --partial:#e0b45f; --partial-bg:#332713;
+    --skip:#9aa0a8; --skip-bg:#26282c; --accent:#e08363;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#131416; --panel:#1c1e21; --ink:#eceef1; --muted:#9aa0a8; --line:#2e3136;
+  --ready:#5fd39b; --ready-bg:#14301f; --partial:#e0b45f; --partial-bg:#332713;
+  --skip:#9aa0a8; --skip-bg:#26282c; --accent:#e08363;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding:48px 24px 72px}
+header h1{font-size:30px;letter-spacing:-.02em;margin:0 0 8px}
+header p{color:var(--muted);margin:0 0 4px;max-width:64ch}
+.stats{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 0}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:5px 13px;font-size:13px;cursor:pointer;color:var(--ink);font-family:inherit}
+.chip[aria-pressed="true"]{border-color:var(--accent);color:var(--accent);font-weight:600}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:18px;margin-top:26px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .12s ease,box-shadow .12s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.10)}
+.shot{aspect-ratio:16/10;background:var(--bg);border-bottom:1px solid var(--line);overflow:hidden}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:7px;flex:1}
+.row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+h2{font-size:16.5px;margin:0;letter-spacing:-.01em}
+.badge{font-size:11px;padding:3px 8px;border-radius:999px;white-space:nowrap;font-weight:600;flex:none}
+.v-ready{color:var(--ready);background:var(--ready-bg)}
+.v-partial{color:var(--partial);background:var(--partial-bg)}
+.v-skip{color:var(--skip);background:var(--skip-bg)}
+.sub{margin:0;color:var(--muted);font-size:13.5px}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin:1px 0}
+.tag{font-size:11px;border:1px solid var(--line);border-radius:5px;padding:2px 6px;color:var(--muted)}
+.note{margin:4px 0 0;font-size:13px;color:var(--muted);line-height:1.5}
+footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Превью проектов</h1>
+  <p>21 проекта подготовлены к статичному показу. Каждый собран, отрендерен в headless-Chromium на 1440×900 и 390×844 и проверен на ошибки консоли и битые запросы. Ничего не закоммичено — это локальная копия для ревью.</p>
+  <div class="stats">
+    <button class="chip" data-f="all" aria-pressed="true">Все · 21</button>
+    <button class="chip" data-f="ready" aria-pressed="false">Готовы · 9</button>
+    <button class="chip" data-f="partial" aria-pressed="false">С оговорками · 11</button>
+    <button class="chip" data-f="skip" aria-pressed="false">Не стоит · 1</button>
+  </div>
+</header>
+<div class="grid">
+<a class="card" href="cabhub/" data-v="ready">
+      <div class="shot"><img src="_hub/thumbs/cabhub.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>CabHUB</h2><span class="badge v-ready">Готов к показу</span></div>
+        <p class="sub">Лендинг службы такси</p>
+        <div class="tags"><span class="tag">Gulp 4</span><span class="tag">Webpack 5</span><span class="tag">SCSS</span><span class="tag">адаптив</span></div>
+        <p class="note">Самая законченная коммерческая вёрстка: чистый десктоп, полноценный адаптив с бургер-меню, 0 ошибок.</p>
+      </div>
+    </a>
+<a class="card" href="chronos/" data-v="ready">
+      <div class="shot"><img src="_hub/thumbs/chronos.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Chronos</h2><span class="badge v-ready">Готов к показу</span></div>
+        <p class="sub">Календарь и таск-менеджер</p>
+        <div class="tags"><span class="tag">React 19</span><span class="tag">Vite 7</span><span class="tag">Tailwind v4</span><span class="tag">Express</span><span class="tag">MongoDB</span></div>
+        <p class="note">Открывается сразу на календаре: 31 событие, 3 календаря, 4 повторяющиеся серии. Починен баг рекуррентности (Invalid Date).</p>
+      </div>
+    </a>
+<a class="card" href="cube/" data-v="ready">
+      <div class="shot"><img src="_hub/thumbs/cube.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Cube</h2><span class="badge v-ready">Готов к показу</span></div>
+        <p class="sub">Сайт креативного агентства</p>
+        <div class="tags"><span class="tag">HTML</span><span class="tag">SCSS</span><span class="tag">JS</span></div>
+        <p class="note">Рендерится полностью и аккуратно на 1440 и 390. Убран фантомный горизонтальный скролл.</p>
+      </div>
+    </a>
+<a class="card" href="fesco/" data-v="ready">
+      <div class="shot"><img src="_hub/thumbs/fesco.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Fesco</h2><span class="badge v-ready">Готов к показу</span></div>
+        <p class="sub">Корпоративный сайт</p>
+        <div class="tags"><span class="tag">HTML</span><span class="tag">SCSS</span><span class="tag">jQuery</span></div>
+        <p class="note">Из index.html вырезано 37 строк PHP с креденшелами БД, которые браузер рендерил как текст.</p>
+      </div>
+    </a>
+<a class="card" href="gulp-template/" data-v="ready">
+      <div class="shot"><img src="_hub/thumbs/gulp-template.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Gulp Template</h2><span class="badge v-ready">Готов к показу</span></div>
+        <p class="sub">Схема работы сборки (документация)</p>
+        <div class="tags"><span class="tag">Gulp 4</span><span class="tag">SCSS</span></div>
+        <p class="note">Заменён пустой стартер на страницу с реальным графом gulp-тасков и 14-ступенчатым SCSS-пайплайном. На английском.</p>
+      </div>
+    </a>
+<a class="card" href="usof/" data-v="ready">
+      <div class="shot"><img src="_hub/thumbs/usof.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>USOF</h2><span class="badge v-ready">Готов к показу</span></div>
+        <p class="sub">Q&A-платформа в духе Stack Overflow</p>
+        <div class="tags"><span class="tag">React 19</span><span class="tag">Vite 7</span><span class="tag">shadcn/ui</span><span class="tag">Express</span><span class="tag">MySQL</span></div>
+        <p class="note">6 пользователей, 10 вопросов, 49 комментариев. Публикация, голосование и MDX-редактор работают в памяти.</p>
+      </div>
+    </a>
+<a class="card" href="card-game/" data-v="ready">
+      <div class="shot"><img src="_hub/thumbs/card-game.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Wasteland Warlords</h2><span class="badge v-ready">Готов к показу</span></div>
+        <p class="sub">Карточный батлер на чистом JS</p>
+        <div class="tags"><span class="tag">Vanilla ES modules</span><span class="tag">Tailwind</span><span class="tag">GSAP</span><span class="tag">Express</span><span class="tag">WebSocket</span></div>
+        <p class="note">Бой реально играется по правилам самого проекта, но противник — локальный бот; WebSocket не участвует.</p>
+      </div>
+    </a>
+<a class="card" href="webpack-template/" data-v="ready">
+      <div class="shot"><img src="_hub/thumbs/webpack-template.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Webpack Template</h2><span class="badge v-ready">Готов к показу</span></div>
+        <p class="sub">Схема работы сборки (документация)</p>
+        <div class="tags"><span class="tag">Webpack 5</span><span class="tag">SCSS</span></div>
+        <p class="note">Страница с четырьмя loader-цепочками в порядке исполнения и сравнением dev/prod конфигов. На английском.</p>
+      </div>
+    </a>
+<a class="card" href="uevent/" data-v="ready">
+      <div class="shot"><img src="_hub/thumbs/uevent.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>uEvent</h2><span class="badge v-ready">Готов к показу</span></div>
+        <p class="sub">Платформа событий и продажи билетов</p>
+        <div class="tags"><span class="tag">React Router v7</span><span class="tag">TypeScript</span><span class="tag">Vite 7</span><span class="tag">NestJS</span><span class="tag">Stripe</span></div>
+        <p class="note">Переведён с SSR на SPA. Полный флоу покупки + кабинет организатора. Stripe нигде не подключён.</p>
+      </div>
+    </a>
+<a class="card" href="amazon-tables/" data-v="partial">
+      <div class="shot"><img src="_hub/thumbs/amazon-tables.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Amazon Tables</h2><span class="badge v-partial">Готов с оговорками</span></div>
+        <p class="sub">Тестовое задание для amazon.com</p>
+        <div class="tags"><span class="tag">React 18</span><span class="tag">Vite</span><span class="tag">TypeScript</span><span class="tag">SCSS</span></div>
+        <p class="note">Сортировка, фильтры, пагинация и drill-down работают на фикстурах вместо живого API.</p>
+      </div>
+    </a>
+<a class="card" href="boostfolia/" data-v="partial">
+      <div class="shot"><img src="_hub/thumbs/boostfolia.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Boostfolia</h2><span class="badge v-partial">Готов с оговорками</span></div>
+        <p class="sub">Лендинг-портфолио</p>
+        <div class="tags"><span class="tag">Gulp 4</span><span class="tag">SCSS</span><span class="tag">jQuery</span></div>
+        <p class="note">Технически чисто, но дизайн объективно не доделан: пустая галерея и секция клиентов.</p>
+      </div>
+    </a>
+<a class="card" href="carstore/" data-v="partial">
+      <div class="shot"><img src="_hub/thumbs/carstore.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>CarStore</h2><span class="badge v-partial">Готов с оговорками</span></div>
+        <p class="sub">Вёрстка магазина автоаксессуаров</p>
+        <div class="tags"><span class="tag">Gulp 4</span><span class="tag">SCSS</span><span class="tag">PostCSS</span><span class="tag">Stylelint</span></div>
+        <p class="note">Из ветки carstore.layout. Починены 13 битых @font-face и 5 блокеров сборки. Мобильная шапка сломана.</p>
+      </div>
+    </a>
+<a class="card" href="fnd/" data-v="partial">
+      <div class="shot"><img src="_hub/thumbs/fnd.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>FND</h2><span class="badge v-partial">Готов с оговорками</span></div>
+        <p class="sub">Многостраничный корпоративный сайт</p>
+        <div class="tags"><span class="tag">HTML</span><span class="tag">SCSS</span><span class="tag">jQuery</span></div>
+        <p class="note">Навигации между страницами не существовало — связал. Починен баг двойного клика в бургере.</p>
+      </div>
+    </a>
+<a class="card" href="gameblog/" data-v="partial">
+      <div class="shot"><img src="_hub/thumbs/gameblog.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>GameBlog</h2><span class="badge v-partial">Готов с оговорками</span></div>
+        <p class="sub">Игровой портал</p>
+        <div class="tags"><span class="tag">Next.js 14</span><span class="tag">TypeScript</span><span class="tag">NextUI</span><span class="tag">Turborepo</span></div>
+        <p class="note">Проект никогда не собирался: 14 подряд падений build. Контент — демо-заглушки.</p>
+      </div>
+    </a>
+<a class="card" href="hellome-money-landing/" data-v="partial">
+      <div class="shot"><img src="_hub/thumbs/hellome-money-landing.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Hello Money</h2><span class="badge v-partial">Готов с оговорками</span></div>
+        <p class="sub">Лендинг финтех-продукта</p>
+        <div class="tags"><span class="tag">React 18</span><span class="tag">Vite</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span></div>
+        <p class="note">Статика ужата 66 МБ → 1.5 МБ пиксель-в-пиксель. Починен basename роутера.</p>
+      </div>
+    </a>
+<a class="card" href="lian/" data-v="partial">
+      <div class="shot"><img src="_hub/thumbs/lian.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>LIAN</h2><span class="badge v-partial">Готов с оговорками</span></div>
+        <p class="sub">Многостраничник креативного агентства (5 страниц)</p>
+        <div class="tags"><span class="tag">HTML</span><span class="tag">SCSS</span><span class="tag">jQuery</span><span class="tag">слайдеры</span></div>
+        <p class="note">Восстановлен «полетевший» SCSS главной. 2 из 7 заявленных страниц не существуют в исходнике.</p>
+      </div>
+    </a>
+<a class="card" href="messenger-layout/" data-v="partial">
+      <div class="shot"><img src="_hub/thumbs/messenger-layout.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Messenger Layout</h2><span class="badge v-partial">Готов с оговорками</span></div>
+        <p class="sub">Пиксель-перфект копия интерфейса мессенджера</p>
+        <div class="tags"><span class="tag">HTML</span><span class="tag">SCSS</span><span class="tag">SF Pro</span></div>
+        <p class="note">Вёрстка точная. Дубликат telegram-copy-layout — показывать стоит только один.</p>
+      </div>
+    </a>
+<a class="card" href="sublime/" data-v="partial">
+      <div class="shot"><img src="_hub/thumbs/sublime.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Sublime</h2><span class="badge v-partial">Готов с оговорками</span></div>
+        <p class="sub">Лендинг</p>
+        <div class="tags"><span class="tag">HTML</span><span class="tag">SCSS</span><span class="tag">jQuery</span></div>
+        <p class="note">Десктоп отличный, все 28 изображений на месте. Ноль media-запросов — адаптива нет.</p>
+      </div>
+    </a>
+<a class="card" href="telegram-copy-layout/" data-v="partial">
+      <div class="shot"><img src="_hub/thumbs/telegram-copy-layout.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Telegram Copy</h2><span class="badge v-partial">Готов с оговорками</span></div>
+        <p class="sub">Тестовое задание: копия интерфейса</p>
+        <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">SF Pro</span></div>
+        <p class="note">Тот же проект, что messenger-layout, но без SCSS-исходников.</p>
+      </div>
+    </a>
+<a class="card" href="zerno/" data-v="partial">
+      <div class="shot"><img src="_hub/thumbs/zerno.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>ZERNO</h2><span class="badge v-partial">Готов с оговорками</span></div>
+        <p class="sub">Лендинг</p>
+        <div class="tags"><span class="tag">Gulp 4</span><span class="tag">Webpack 5</span><span class="tag">SCSS</span><span class="tag">Swiper</span></div>
+        <p class="note">Починен webpack — сайт работал вообще без JS. Нет мобильного адаптива.</p>
+      </div>
+    </a>
+<a class="card" href="portfolio/" data-v="skip">
+      <div class="shot"><img src="_hub/thumbs/portfolio.jpg" alt="" loading="lazy"></div>
+      <div class="body">
+        <div class="row"><h2>Portfolio (старое)</h2><span class="badge v-skip">Показывать не стоит</span></div>
+        <p class="sub">Прошлый сайт-портфолио</p>
+        <div class="tags"><span class="tag">Next.js 14</span><span class="tag">Tailwind</span></div>
+        <p class="note">Помечен на удаление по твоему решению; заменяется новым Angular-портфолио.</p>
+      </div>
+    </a>
+</div>
+<footer>Подробные отчёты по каждому проекту — в папке <code>reports/</code> рядом с этой. Скриншоты — в <code>shots/</code>.</footer>
+</div>
+<script>
+document.querySelectorAll('.chip').forEach(function(b){
+  b.addEventListener('click',function(){
+    var f=b.dataset.f;
+    document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});
+    document.querySelectorAll('.card').forEach(function(c){
+      c.classList.toggle('hidden', f!=='all' && c.dataset.v!==f);
+    });
+  });
+});
+</script>
+</body>
+</html>
