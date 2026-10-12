@@ -197,6 +197,39 @@
       "repo": null
     },
     {
+      "id": "supply-chain-admin-panel",
+      "title": "Supply Chain Admin Panel",
+      "tagline": "Production on a world map, 2010–2026 — filter by country or by product",
+      "category": "product",
+      "year": "2026",
+      "featured": true,
+      "stack": [
+        "React 19",
+        "TypeScript",
+        "TanStack Start",
+        "TanStack Query",
+        "Zustand",
+        "nuqs",
+        "Zod 4",
+        "Tailwind v4",
+        "shadcn/ui",
+        "d3-geo",
+        "MSW",
+        "Vitest",
+        "Storybook"
+      ],
+      "summary": "An operations panel that answers one question: where is a product made, how much of it, and how has that changed. Pick a country or a product first and the other list narrows to what actually matches, across any year range from 2010 to 2026, on a hand-rolled SVG world map.",
+      "highlights": [
+        "Bidirectional filtering through a real join over facilities and production records, not a hard-coded lookup table.",
+        "Full CRUD for seven entities, roles and permissions checked in both the UI and the mock API, and a read-only activity log.",
+        "Feature-Sliced Design enforced by the linter; 228 test files across unit, integration, snapshot and screenshot layers.",
+        "Four languages, three themes, WCAG 2.2 AA, a separate mobile layout, and Excel export of exactly what is on screen."
+      ],
+      "demo": null,
+      "demoNote": null,
+      "repo": "supply-chain-admin-panel"
+    },
+    {
       "id": "chronos",
       "title": "Chronos",
       "tagline": "Calendar and task manager with sharing and Google Calendar sync",
