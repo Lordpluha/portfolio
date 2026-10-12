@@ -2534,5 +2534,98 @@ export const PROJECT_MEDIA: Readonly<Record<string, ProjectMedia>> = {
         "ratio": 0.4621
       }
     ]
+  },
+  "supply-chain-admin-panel": {
+    "card": {
+      "sources": [
+        {
+          "w": 640,
+          "h": 337,
+          "src": "img/supply-chain-admin-panel/card-640.webp"
+        },
+        {
+          "w": 960,
+          "h": 505,
+          "src": "img/supply-chain-admin-panel/card-960.webp"
+        },
+        {
+          "w": 1280,
+          "h": 674,
+          "src": "img/supply-chain-admin-panel/card-1280.webp"
+        }
+      ],
+      "alt": "Supply Chain Admin Panel \u2014 screenshot of the project interface"
+    },
+    "desktop": [
+      {
+        "label": "Country",
+        "alt": "Supply Chain Admin Panel \u2014 country screen",
+        "sources": [
+          {
+            "w": 640,
+            "h": 337,
+            "src": "img/supply-chain-admin-panel/supply-chain-admin-panel-country-1440-640.webp"
+          },
+          {
+            "w": 1280,
+            "h": 674,
+            "src": "img/supply-chain-admin-panel/supply-chain-admin-panel-country-1440-1280.webp"
+          }
+        ],
+        "ratio": 1.8995
+      },
+      {
+        "label": "Map (dark theme)",
+        "alt": "Supply Chain Admin Panel \u2014 map (dark theme) screen",
+        "sources": [
+          {
+            "w": 640,
+            "h": 337,
+            "src": "img/supply-chain-admin-panel/supply-chain-admin-panel-map-dark-1440-640.webp"
+          },
+          {
+            "w": 1280,
+            "h": 674,
+            "src": "img/supply-chain-admin-panel/supply-chain-admin-panel-map-dark-1440-1280.webp"
+          }
+        ],
+        "ratio": 1.8995
+      },
+      {
+        "label": "Production",
+        "alt": "Supply Chain Admin Panel \u2014 production screen",
+        "sources": [
+          {
+            "w": 640,
+            "h": 337,
+            "src": "img/supply-chain-admin-panel/supply-chain-admin-panel-production-1440-640.webp"
+          },
+          {
+            "w": 1280,
+            "h": 674,
+            "src": "img/supply-chain-admin-panel/supply-chain-admin-panel-production-1440-1280.webp"
+          }
+        ],
+        "ratio": 1.8995
+      },
+      {
+        "label": "Roles",
+        "alt": "Supply Chain Admin Panel \u2014 roles screen",
+        "sources": [
+          {
+            "w": 640,
+            "h": 337,
+            "src": "img/supply-chain-admin-panel/supply-chain-admin-panel-roles-1440-640.webp"
+          },
+          {
+            "w": 1280,
+            "h": 674,
+            "src": "img/supply-chain-admin-panel/supply-chain-admin-panel-roles-1440-1280.webp"
+          }
+        ],
+        "ratio": 1.8995
+      }
+    ],
+    "mobile": []
   }
 } as const;
