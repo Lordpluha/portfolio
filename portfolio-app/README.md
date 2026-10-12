@@ -24,7 +24,6 @@ Other scripts:
 
 ```bash
 npm run build        # static build with base href "/", output in dist/portfolio-app/browser
-npm run build:pages  # the same build with base href "/portfolio/" for GitHub Pages
 npm test             # unit tests (vitest)
 npm run format       # prettier
 npm run fonts:sync   # re-copy the WOFF2 subsets out of the @fontsource packages
@@ -49,11 +48,12 @@ SHOTS_DIR=../shots PROJECTS_JSON=../portfolio-data/projects.json npm run generat
 
 ## Deploying to GitHub Pages
 
-The site lives at a sub-path, `https://lordpluha.github.io/portfolio/`, so the build needs a
-matching base href:
+The site is the user site at the domain root, `https://lordpluha.github.io/`, because the
+repository is named `lordpluha.github.io`. The Pages workflow derives the base href from the
+repository name, so it builds with `/` here and would build with `/<repo>/` anywhere else:
 
 ```bash
-npm run build:pages
+npm run build
 # publishes dist/portfolio-app/browser
 ```
 

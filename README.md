@@ -29,12 +29,12 @@ npm run build        # сборка + tools/postbuild.mjs (пререндер 23
 
 ## Посмотреть собранную версию без сборки
 
-Сайт собран под подпуть `/portfolio/`, поэтому раздавать нужно на уровень выше:
+Сайт живёт в корне `https://lordpluha.github.io/` (репозиторий называется
+`lordpluha.github.io`), поэтому сборка раздаётся как есть:
 
 ```bash
-mkdir -p .serve && ln -sfn ../portfolio-dist .serve/portfolio
-cd .serve && python3 -m http.server 8080
-# http://localhost:8080/portfolio/
+cd portfolio-dist && python3 -m http.server 8080
+# http://localhost:8080/
 ```
 
 ## Превью проектов

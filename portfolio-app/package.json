@@ -5,7 +5,6 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build && node tools/postbuild.mjs",
-    "build:pages": "ng build --base-href /portfolio/ && node tools/postbuild.mjs",
     "test": "ng test",
     "format": "prettier --write .",
     "fonts:sync": "node tools/sync-fonts.mjs",
