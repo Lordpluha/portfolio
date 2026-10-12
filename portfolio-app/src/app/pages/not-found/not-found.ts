@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { I18nService } from '../../core/i18n/i18n.service';
 import { ProjectsService } from '../../core/projects.service';
 import { SeoService } from '../../core/seo.service';
 import { Icon } from '../../shared/icon';
@@ -11,25 +12,25 @@ import { Icon } from '../../shared/icon';
   imports: [RouterLink, Icon],
   template: `
     <section class="missing shell">
-      <p class="eyebrow">Error 404</p>
+      <p class="eyebrow">{{ i18n.t('nf.title') }}</p>
       <h1 class="missing__code display">404</h1>
       <p class="missing__lede">{{ text() }}</p>
 
       <div class="missing__links">
         <a class="button button--primary" routerLink="/">
           <app-icon name="arrow-left" />
-          Back to the home page
+          {{ i18n.t('nf.home') }}
         </a>
-        <a class="button" routerLink="/" fragment="work">See all work</a>
+        <a class="button" routerLink="/" fragment="work">{{ i18n.t('nf.all') }}</a>
       </div>
 
       <div class="missing__suggested">
-        <h2 class="eyebrow">Or start with these</h2>
+        <h2 class="eyebrow">{{ i18n.t('nf.suggest') }}</h2>
         <ul>
           @for (project of suggestions; track project.id) {
             <li>
               <a [routerLink]="['/work', project.id]">{{ project.title }}</a>
-              <span>{{ project.tagline }}</span>
+              <span>{{ i18n.tagline(project.id, project.tagline) }}</span>
             </li>
           }
         </ul>
@@ -111,10 +112,9 @@ export class NotFound {
    */
   readonly message = input<string | undefined>(undefined);
 
-  protected readonly text = computed(
-    () => this.message() ?? 'That page is not here. It may have been renamed, or never existed.',
-  );
+  protected readonly text = computed(() => this.message() ?? this.i18n.t('nf.body'));
 
+  protected readonly i18n = inject(I18nService);
   private readonly projects = inject(ProjectsService);
   protected readonly suggestions = this.projects.featured().slice(0, 3);
 

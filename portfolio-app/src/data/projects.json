@@ -145,27 +145,30 @@
     {
       "id": "bitrate",
       "title": "Bitrate",
-      "tagline": "Open-source music platform — monorepo, design system, documented",
+      "tagline": "Open-source music platform: Next.js, TanStack Start, NestJS and Angular and Svelte micro-frontends",
       "category": "product",
       "year": "2026",
       "featured": true,
       "stack": [
         "Next.js 16",
+        "TanStack Start",
         "React 19",
-        "TypeScript",
+        "Angular",
+        "Svelte",
         "NestJS 11",
+        "TypeScript",
         "Prisma 7",
         "PostgreSQL 16",
         "Redis",
         "Turborepo",
-        "Storybook 10",
-        "Docusaurus"
+        "Docker"
       ],
-      "summary": "The largest project here: two Next.js applications, a NestJS API, a shared React design system published to Storybook, and a Docusaurus documentation site — all in one Turborepo.",
+      "summary": "The largest project here, built as a platform rather than an app: one Next.js application, a TanStack Start application, a NestJS API, Angular and Svelte micro-frontends, a shared design system, its own infrastructure and custom CI/CD pipelines, all in one Turborepo.",
       "highlights": [
-        "308 test files across three layers — by some distance the most thoroughly tested project in this list.",
-        "Design system extracted into its own package with Storybook as the contract.",
-        "Full engineering setup: Biome, commitlint, lefthook, changesets, artifact and token checks in CI."
+        "Micro-frontends in Angular and Svelte next to the React applications, so the same product runs on three frameworks.",
+        "Own infrastructure and custom CI/CD pipelines, with artifact and token checks on every change.",
+        "AI workflows built into development: agents take tasks end to end, people review and release.",
+        "308 test files across three layers, the most thoroughly tested project in this list."
       ],
       "demo": "https://bitrate.me/",
       "demoNote": "The live platform. The repository here is the source behind it.",

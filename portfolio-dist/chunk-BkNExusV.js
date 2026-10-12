@@ -1,1 +1,0 @@
-import{E as Zw,G as x,r as BV,v as Qy,z as p}from"./main-QSZED5LR.js";var f=class t{title=p(Qy);meta=p(BV);set(e,i){this.title.setTitle(e?`${e} \u2014 ${Zw.titleSuffix}`:Zw.titleSuffix),this.meta.updateTag({name:`description`,content:i})}static ɵfac=function(i){return new(i||t)};static ɵprov=x({token:t,factory:t.ɵfac,providedIn:`root`})};export{f as t};

@@ -288,3 +288,9 @@
 .pager__link:hover .pager__title {
   color: var(--accent);
 }
+
+.work__lang {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+}

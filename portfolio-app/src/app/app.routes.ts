@@ -6,8 +6,9 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/home/home').then((m) => m.Home),
   },
   {
+    // The old about page now lives on the home page.
     path: 'about',
-    loadComponent: () => import('./pages/about/about').then((m) => m.About),
+    redirectTo: '',
   },
   {
     path: 'work/:id',

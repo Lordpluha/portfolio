@@ -1,14 +1,17 @@
 import { DOCUMENT, Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-export type ThemeChoice = 'light' | 'dark' | 'system';
+export type Theme = 'light' | 'dark' | 'dim';
+export type ThemeChoice = Theme | 'system';
+
+export const THEMES: readonly Theme[] = ['light', 'dark', 'dim'];
 
 const STORAGE_KEY = 'portfolio-theme';
 
 /**
- * Owns the explicit light/dark choice. When the choice is `system` no
- * `data-theme` attribute is set and the `prefers-color-scheme` media query in
- * the stylesheet takes over.
+ * Owns the explicit theme choice. While the choice is `system` no `data-theme`
+ * attribute is set and the `prefers-color-scheme` query in the stylesheet
+ * decides between light and dark; `dim` is only ever an explicit choice.
  */
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -17,7 +20,7 @@ export class ThemeService {
 
   readonly choice = signal<ThemeChoice>('system');
   /** The theme actually being painted right now. */
-  readonly resolved = signal<'light' | 'dark'>('light');
+  readonly resolved = signal<Theme>('light');
 
   constructor() {
     if (!this.isBrowser) {
@@ -33,10 +36,6 @@ export class ThemeService {
         this.apply();
       }
     });
-  }
-
-  toggle(): void {
-    this.set(this.resolved() === 'dark' ? 'light' : 'dark');
   }
 
   set(choice: ThemeChoice): void {
@@ -65,7 +64,7 @@ export class ThemeService {
   private read(): ThemeChoice {
     try {
       const stored = this.document.defaultView?.localStorage.getItem(STORAGE_KEY);
-      return stored === 'light' || stored === 'dark' ? stored : 'system';
+      return THEMES.includes(stored as Theme) ? (stored as Theme) : 'system';
     } catch {
       return 'system';
     }

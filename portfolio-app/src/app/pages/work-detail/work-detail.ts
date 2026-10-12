@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
+import { I18nService } from '../../core/i18n/i18n.service';
 import { ProjectsService } from '../../core/projects.service';
 import { SeoService } from '../../core/seo.service';
 import { Icon } from '../../shared/icon';
@@ -19,6 +20,7 @@ export class WorkDetail {
   /** Bound from the `:id` route parameter via `withComponentInputBinding`. */
   readonly id = input<string>('');
 
+  protected readonly i18n = inject(I18nService);
   private readonly projects = inject(ProjectsService);
   private readonly seo = inject(SeoService);
 

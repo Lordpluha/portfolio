@@ -15,7 +15,7 @@ export const SITE = {
   origin: 'https://lordpluha.github.io',
   /** Sub-path this site is served from on GitHub Pages. */
   basePath: '/',
-  titleSuffix: 'Vladyslav Tesliuk — Senior Frontend Engineer',
+  titleSuffix: 'Vladyslav Tesliuk — Senior Front-end Developer, AI Engineer',
 } as const;
 
 /**

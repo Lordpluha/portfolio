@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, afterNextRender, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+import { I18nService } from './core/i18n/i18n.service';
 import { SiteFooter } from './layout/site-footer';
 import { SiteHeader } from './layout/site-header';
 
@@ -9,7 +10,7 @@ import { SiteHeader } from './layout/site-header';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, SiteHeader, SiteFooter],
   template: `
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">{{ i18n.t('skip') }}</a>
     <app-site-header />
     <main id="main" tabindex="-1">
       <router-outlet />
@@ -24,6 +25,8 @@ import { SiteHeader } from './layout/site-header';
     }
 
     main {
+      position: relative;
+      z-index: 2;
       flex: 1;
     }
 
@@ -32,4 +35,12 @@ import { SiteHeader } from './layout/site-header';
     }
   `,
 })
-export class App {}
+export class App {
+  protected readonly i18n = inject(I18nService);
+
+  constructor() {
+    // Apply the visitor's language only after hydration, so the prerendered
+    // English HTML and the first client render match.
+    afterNextRender(() => this.i18n.restore());
+  }
+}

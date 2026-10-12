@@ -1,181 +1,315 @@
-@let owner = projects.owner;
+<app-layer-scene [page]="state.index()" />
+<p class="caption" [class.caption--hidden]="state.index() !== 0">{{ i18n.t('caption') }}</p>
 
-<section class="hero">
-  <div class="shell">
-    <p class="hero__status">
-      <span class="hero__dot" aria-hidden="true"></span>
-      {{ owner.availability }}
-    </p>
+<nav class="dots" [attr.aria-label]="i18n.t('nav.pages')">
+  @for (section of sections; track section.id; let i = $index) {
+    <a
+      routerLink="/"
+      [fragment]="section.id"
+      [attr.aria-label]="i18n.t(section.label)"
+      [attr.aria-current]="state.index() === i ? 'true' : null"
+    ></a>
+  }
+</nav>
 
-    <h1 class="hero__name display">{{ owner.name }}</h1>
+<section class="page" id="home">
+  <div class="col">
+    <figure class="portrait">
+      <img
+        src="img/portrait-320.webp"
+        srcset="img/portrait-320.webp 320w, img/portrait-640.webp 640w"
+        sizes="144px"
+        width="320"
+        height="400"
+        [alt]="i18n.t('hero.photo')"
+        fetchpriority="high"
+      />
+    </figure>
+    <p class="status">{{ i18n.t('hero.status') }}</p>
+    <h1 class="name">{{ owner.name }}</h1>
+    <p class="role">{{ i18n.t('hero.role') }}</p>
+    <p class="lead">{{ i18n.t('hero.lead') }}</p>
+    <div class="actions">
+      <a
+        class="btn btn--primary"
+        href="cv/Vladyslav_Tesliuk_CV.pdf"
+        download="Vladyslav_Tesliuk_CV.pdf"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14" /></svg>
+        <span>{{ i18n.t('hero.cv') }}</span>
+      </a>
+      <a class="btn" routerLink="/" fragment="work">{{ i18n.t('hero.work') }}</a>
+    </div>
+    <p class="note">{{ i18n.t('hero.cvNote') }}</p>
+  </div>
+</section>
 
-    <div class="hero__grid">
+<section class="page" id="about" aria-labelledby="about-h">
+  <div class="col">
+    <h2 id="about-h">{{ i18n.t('about.title') }}</h2>
+    <div class="prose">
+      <p>{{ i18n.t('about.p1') }}</p>
+      <p>{{ i18n.t('about.p2') }}</p>
+      <p>{{ i18n.t('about.p3') }}</p>
+    </div>
+    <dl class="facts">
       <div>
-        <p class="hero__role">{{ owner.role }}</p>
-        <p class="hero__positioning">{{ owner.positioning }}</p>
+        <dt>{{ i18n.t('facts.based') }}</dt>
+        <dd>{{ i18n.t('facts.basedV') }}</dd>
       </div>
+      <div>
+        <dt>{{ i18n.t('facts.langs') }}</dt>
+        <dd>{{ i18n.t('facts.langsV') }}</dd>
+      </div>
+      <div>
+        <dt>{{ i18n.t('facts.edu') }}</dt>
+        <dd>{{ i18n.t('facts.eduV') }}</dd>
+      </div>
+    </dl>
+  </div>
+</section>
 
-      <div class="hero__side">
-        <dl class="hero__facts">
-          <div>
-            <dt>Based in</dt>
-            <dd>{{ owner.location }}</dd>
-          </div>
-          <div>
-            <dt>Projects here</dt>
-            <dd>{{ projects.all().length }}</dd>
-          </div>
-        </dl>
+<section class="page" id="learning" aria-labelledby="learn-h">
+  <div class="col col--wide">
+    <h2 id="learn-h">{{ i18n.t('learn.title') }}</h2>
+    <p class="intro">{{ i18n.t('learn.intro') }}</p>
+    <ul class="learn">
+      @for (item of learning; track item.name) {
+        <li>
+          <h3>{{ item.name }}</h3>
+          <p>{{ i18n.t(item.note) }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
 
-        <div class="hero__links">
-          <a class="button button--primary" [href]="'mailto:' + owner.email">
-            <app-icon name="mail" />
-            Get in touch
-          </a>
-          <a class="button" [href]="owner.github" rel="noopener">
-            <app-icon name="github" />
-            GitHub
-          </a>
+<section class="page" id="experience" aria-labelledby="exp-h">
+  <div class="col col--wide">
+    <h2 id="exp-h">{{ i18n.t('exp.title') }}</h2>
+    <ol class="timeline">
+      <li>
+        <p class="when">05.2024 – 09.2026</p>
+        <h3 class="where">Aventus IT</h3>
+        <p class="what">{{ i18n.t('exp.a.role') }}</p>
+        <p class="intro">{{ i18n.t('exp.a.intro') }}</p>
+        <ol class="projects">
+          <li>
+            <div class="proj-head"><b>GGChest</b><span>10.2024 – 09.2026</span></div>
+            <p class="proj-what">{{ i18n.t('exp.gg.what') }}</p>
+            <ul class="bullets">
+              <li>{{ i18n.t('exp.gg.1') }}</li>
+              <li>{{ i18n.t('exp.gg.2') }}</li>
+              <li>{{ i18n.t('exp.gg.3') }}</li>
+              <li>{{ i18n.t('exp.gg.4') }}</li>
+              <li>{{ i18n.t('exp.gg.5') }}</li>
+            </ul>
+          </li>
+          <li>
+            <div class="proj-head"><b>AppLikeWeb</b><span>07.2024 – 01.2025</span></div>
+            <p class="proj-what">{{ i18n.t('exp.alw.what') }}</p>
+            <ul class="bullets">
+              <li>{{ i18n.t('exp.alw.1') }}</li>
+              <li>{{ i18n.t('exp.alw.2') }}</li>
+            </ul>
+          </li>
+          <li>
+            <div class="proj-head"><b>PeerBerry, Crowdpear</b><span>10.2024 – 12.2024</span></div>
+            <p class="proj-what">{{ i18n.t('exp.fin.what') }}</p>
+            <ul class="bullets">
+              <li>{{ i18n.t('exp.fin.1') }}</li>
+            </ul>
+          </li>
+          <li>
+            <div class="proj-head"><b>Pesa Plus</b><span>05.2024 – 10.2024</span></div>
+            <p class="proj-what">{{ i18n.t('exp.pesa.what') }}</p>
+            <ul class="bullets">
+              <li>{{ i18n.t('exp.pesa.1') }}</li>
+            </ul>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <p class="when">03.2023 – 05.2024</p>
+        <h3 class="where">Nova Developers Co.</h3>
+        <p class="what">{{ i18n.t('exp.b.role') }}</p>
+        <ul class="bullets">
+          <li>{{ i18n.t('exp.b.1') }}</li>
+          <li>{{ i18n.t('exp.b.2') }}</li>
+        </ul>
+      </li>
+      <li>
+        <p class="when">2019 – 01.2023</p>
+        <h3 class="where">{{ i18n.t('exp.c.where') }}</h3>
+        <p class="what">{{ i18n.t('exp.c.role') }}</p>
+        <ul class="bullets">
+          <li>{{ i18n.t('exp.c.1') }}</li>
+          <li>{{ i18n.t('exp.c.2') }}</li>
+        </ul>
+      </li>
+    </ol>
+    <div class="numbers">
+      <div>
+        <b>7</b><span>{{ i18n.t('num.years') }}</span>
+      </div>
+      <div>
+        <b>20×</b><span>{{ i18n.t('num.build') }}</span>
+      </div>
+      <div>
+        <b>+70%</b><span>{{ i18n.t('num.tasks') }}</span>
+      </div>
+      <div>
+        <b>9</b><span>{{ i18n.t('num.onboard') }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="work" aria-labelledby="work-h">
+  <div class="col col--wide">
+    <h2 id="work-h">{{ i18n.t('work.title') }}</h2>
+    <ul class="work">
+      @for (project of projects.featured(); track project.id) {
+        <li>
+          <span class="yr">{{ project.year }}</span>
+          <h3>
+            <a [routerLink]="['/work', project.id]">{{ project.title }}</a>
+          </h3>
+          <div class="links">
+            @if (project.demoHref; as demo) {
+              <a [href]="demo" target="_blank" rel="noopener">{{ i18n.t('work.live') }}</a>
+            }
+            @if (project.repoHref; as repo) {
+              <a [href]="repo" target="_blank" rel="noopener">{{ i18n.t('work.code') }}</a>
+            } @else {
+              <span class="nda">{{ i18n.t('work.nda') }}</span>
+            }
+          </div>
+          <p>{{ i18n.tagline(project.id, project.tagline) }}</p>
+          <span class="stack-line">{{ project.stack.slice(0, 5).join(' / ') }}</span>
+        </li>
+      }
+    </ul>
+    <h3 class="more-title">{{ i18n.t('work.more') }}</h3>
+    <ul class="more">
+      @for (project of projects.rest(); track project.id) {
+        <li>
+          <a [routerLink]="['/work', project.id]">{{ project.title }}</a>
+        </li>
+      }
+    </ul>
+    <a class="all" [href]="owner.github" target="_blank" rel="noopener">{{ i18n.t('work.all') }}</a>
+  </div>
+</section>
+
+<section class="page" id="hobbies" aria-labelledby="hob-h">
+  <div class="col col--wide">
+    <h2 id="hob-h">{{ i18n.t('hob.title') }}</h2>
+
+    <div class="life">
+      <h3 class="block-title">{{ i18n.t('hob.life.title') }}</h3>
+      <div class="life__grid">
+        <div class="life__item">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M12 25V9.5L26 6v15.5" />
+            <circle cx="8.5" cy="25" r="3.5" />
+            <circle cx="22.5" cy="21.5" r="3.5" />
+          </svg>
+          <h4>{{ i18n.t('hob.music.t') }}</h4>
+          <p>{{ i18n.t('hob.music.p') }}</p>
+        </div>
+        <div class="life__item">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M4 16h24" />
+            <rect x="6" y="10" width="4" height="12" rx="1" />
+            <rect x="22" y="10" width="4" height="12" rx="1" />
+            <path d="M3 13v6M29 13v6" />
+          </svg>
+          <h4>{{ i18n.t('hob.sport.t') }}</h4>
+          <p>{{ i18n.t('hob.sport.p') }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tech">
+      <h3 class="block-title">{{ i18n.t('hob.tech.title') }}</h3>
+      <p class="intro">{{ i18n.t('hob.tech.intro') }}</p>
+      <div class="tech__grid">
+        <div class="hobby">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M16 3 4 8v8c0 7 5 11.5 12 13 7-1.5 12-6 12-13V8z" />
+            <path d="m11 16 3.5 3.5L21 13" />
+          </svg>
+          <h4>{{ i18n.t('hob.htb.t') }}</h4>
+          <p>{{ i18n.t('hob.htb.p') }}</p>
+        </div>
+        <div class="hobby">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="m16 3 11 6.5v13L16 29 5 22.5v-13z" />
+            <path d="m5 9.5 11 6.5 11-6.5M16 16v13" />
+          </svg>
+          <h4>{{ i18n.t('hob.3d.t') }}</h4>
+          <p>{{ i18n.t('hob.3d.p') }}</p>
+        </div>
+        <div class="hobby">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path d="M11 9 4 16l7 7M21 9l7 7-7 7M18 6l-4 20" />
+          </svg>
+          <h4>{{ i18n.t('hob.kata.t') }}</h4>
+          <p>{{ i18n.t('hob.kata.p') }}</p>
+        </div>
+        <div class="hobby">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <circle cx="9" cy="9" r="4" />
+            <circle cx="23" cy="23" r="4" />
+            <path d="M13 9h6a4 4 0 0 1 4 4v6M19 23h-6a4 4 0 0 1-4-4v-6" />
+          </svg>
+          <h4>{{ i18n.t('hob.auto.t') }}</h4>
+          <p>{{ i18n.t('hob.auto.p') }}</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section" id="work" aria-labelledby="selected-heading">
-  <div class="shell">
-    <header class="section__head">
-      <p class="eyebrow">Selected work</p>
-      <h2 class="section__title display" id="selected-heading">
-        Projects worth<br />reading the code of
-      </h2>
-    </header>
+<section class="page" id="contact" aria-labelledby="con-h">
+  <div class="col">
+    <h2 id="con-h">{{ i18n.t('con.title') }}</h2>
+    <p class="intro">{{ i18n.t('con.p') }}</p>
 
-    <ol class="featured">
-      @for (project of projects.featured(); track project.id; let i = $index) {
-        <li class="featured__item" appReveal>
-          <div class="featured__media">
-            @if (project.media.card; as card) {
-              <app-image
-                [sources]="card.sources"
-                [alt]="card.alt"
-                [priority]="i === 0"
-                sizes="(min-width: 900px) 640px, 92vw"
-              />
-            } @else {
-              <div class="featured__placeholder">
-                <p class="featured__placeholder-title">
-                  {{ project.demoHref ? 'Live, and open source' : 'Source is the deliverable' }}
-                </p>
-                <p class="featured__placeholder-note">{{ project.demoNote }}</p>
-                <ul class="featured__placeholder-stack">
-                  @for (item of project.stack.slice(0, 5); track item) {
-                    <li>{{ item }}</li>
-                  }
-                </ul>
-              </div>
-            }
-          </div>
-
-          <div class="featured__body">
-            <p class="featured__index">{{ pad(i + 1) }} — {{ project.year }}</p>
-            <h3 class="featured__title">
-              <a [routerLink]="['/work', project.id]">{{ project.title }}</a>
-            </h3>
-            <p class="featured__tagline">{{ project.tagline }}</p>
-            <p class="featured__summary">{{ project.summary }}</p>
-            <ul class="featured__stack">
-              @for (item of project.stack.slice(0, 6); track item) {
-                <li>{{ item }}</li>
-              }
-              @if (project.stack.length > 6) {
-                <li class="featured__stack-more">+{{ project.stack.length - 6 }} more</li>
-              }
-            </ul>
-            <p class="featured__cta" aria-hidden="true">
-              <span>Read the case</span>
-              <app-icon name="arrow-right" />
-            </p>
-          </div>
-        </li>
-      }
-    </ol>
-  </div>
-</section>
-
-<section class="section" id="archive" aria-labelledby="archive-heading">
-  <div class="shell">
-    <header class="section__head section__head--split">
-      <div>
-        <p class="eyebrow">Everything else</p>
-        <h2 class="section__title display" id="archive-heading">The rest of the shelf</h2>
-      </div>
-
-      <div class="filters" role="group" aria-label="Filter projects by category">
-        <button
-          type="button"
-          class="filters__button"
-          [class.is-active]="activeCategory() === 'all'"
-          [attr.aria-pressed]="activeCategory() === 'all'"
-          (click)="setCategory('all')"
-        >
-          All <span class="filters__count">{{ projects.rest().length }}</span>
-        </button>
-        @for (category of projects.restCategories(); track category.id) {
-          <button
-            type="button"
-            class="filters__button"
-            [class.is-active]="activeCategory() === category.id"
-            [attr.aria-pressed]="activeCategory() === category.id"
-            (click)="setCategory(category.id)"
-          >
-            {{ category.label }} <span class="filters__count">{{ countFor(category.id) }}</span>
+    <dl class="reach">
+      <div class="reach__mail">
+        <dt>{{ i18n.t('con.email') }}</dt>
+        <dd>
+          <a #mail class="mail" [href]="'mailto:' + owner.email">{{ owner.email }}</a>
+          <button type="button" class="copy" (click)="copy('mail', owner.email, mail)">
+            {{ copied() === 'mail' ? i18n.t('con.copied') : i18n.t('con.copy') }}
           </button>
-        }
+        </dd>
       </div>
-    </header>
-
-    <p class="visually-hidden" aria-live="polite">{{ resultsMessage() }}</p>
-
-    <ul class="grid">
-      @for (project of visible(); track project.id) {
-        <li class="grid__item" appReveal>
-          <app-project-card [project]="project" />
-        </li>
-      } @empty {
-        <li class="grid__empty">No projects in this category.</li>
-      }
-    </ul>
-  </div>
-</section>
-
-<section class="section" id="toolkit" aria-labelledby="toolkit-heading">
-  <div class="shell">
-    <header class="section__head">
-      <p class="eyebrow">Toolkit</p>
-      <h2 class="section__title display" id="toolkit-heading">What I reach for</h2>
-    </header>
-
-    <dl class="skills">
-      @for (group of skillGroups; track group.name) {
-        <div class="skills__group">
-          <dt>{{ group.name }}</dt>
+      @for (phone of phones; track phone.id) {
+        <div>
+          <dt>{{ i18n.t(phone.label) }}</dt>
           <dd>
-            <ul>
-              @for (skill of group.items; track skill) {
-                <li>{{ skill }}</li>
-              }
-            </ul>
+            <a #num class="num" [href]="'tel:' + phone.e164">{{ phone.display }}</a>
+            <button type="button" class="copy" (click)="copy(phone.id, phone.e164, num)">
+              {{ copied() === phone.id ? i18n.t('con.copied') : i18n.t('con.copy') }}
+            </button>
           </dd>
         </div>
       }
     </dl>
 
-    <p class="section__more">
-      <a routerLink="/about">
-        <span>More about how I work</span>
-        <app-icon name="arrow-right" />
-      </a>
-    </p>
+    <h3 class="elsewhere">{{ i18n.t('con.elsewhere') }}</h3>
+    <ul class="profiles">
+      @for (profile of owner.profiles; track profile.id) {
+        <li>
+          <a [href]="profile.url" target="_blank" rel="noopener">
+            <app-icon [name]="profile.id" />
+            {{ profile.label }}
+          </a>
+        </li>
+      }
+    </ul>
   </div>
 </section>

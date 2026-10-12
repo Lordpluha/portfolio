@@ -9,7 +9,20 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
+}
+
+// Touch screens keep native scrolling, nudged to whole pages on the home page.
+@media (pointer: coarse) {
+  html {
+    scroll-snap-type: y proximity;
+  }
+}
+
+// The header is fixed; pages other than home clear it themselves.
+main > app-work-detail,
+main > app-not-found {
+  display: block;
+  padding-top: calc(var(--header-h) + var(--space-5));
 }
 
 body {
@@ -133,8 +146,8 @@ a:hover {
 
 .display {
   font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 0.95;
+  font-weight: 600;
+  line-height: 1;
   letter-spacing: -0.015em;
 }
 
@@ -212,10 +225,6 @@ a:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {
