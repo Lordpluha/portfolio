@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "@angular/build": "^22.1.7",
-    "@angular/cli": "^22.1.7",
+    "@angular/cli": "^22.2.2",
     "@angular/compiler-cli": "^22.1.0",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/onest": "^5.2.8",
