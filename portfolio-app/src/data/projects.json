@@ -225,8 +225,8 @@
         "Feature-Sliced Design enforced by the linter; 228 test files across unit, integration, snapshot and screenshot layers.",
         "Four languages, three themes, WCAG 2.2 AA, a separate mobile layout, and Excel export of exactly what is on screen."
       ],
-      "demo": null,
-      "demoNote": null,
+      "demo": "supply-chain-admin-panel",
+      "demoNote": "Runs entirely in the browser: the API is mocked by a service worker, so data resets on reload. Sign in with the pre-filled admin account.",
       "repo": "supply-chain-admin-panel"
     },
     {
